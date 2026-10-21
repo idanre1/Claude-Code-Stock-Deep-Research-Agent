@@ -4,7 +4,7 @@
 			"path": "."
 		},
 		{
-			"path": "../../prompt_zoo"
+			"path": "../prompt_zoo"
 		}
 	]
 }
