@@ -163,19 +163,16 @@ Once you have sufficient clarity, generate a structured investment research prom
 **File Structure**:
 ```
 /datadrive/scratch/stock_research/STOCK_[ticker]_[company_name]/
-├── README.md (navigation and overview)
-├── 00_Executive_Summary.md (signal rating + core logic)
-├── 01_Business_Foundation.md (Phase 1)
-├── 02_Industry_Analysis.md (Phase 2)
-├── 03_Business_Breakdown.md (Phase 3)
-├── 04_Financial_Quality.md (Phase 4)
-├── 05_Governance_Analysis.md (Phase 5)
-├── 06_Market_Sentiment.md (Phase 6)
-├── 07_Valuation_Moat.md (Phase 7)
-├── Financial_Data/ (tables and analysis)
-├── Valuation/ (detailed valuation work)
-├── Risk_Monitoring/ (bear case, black swans, monitoring checklist)
-└── sources/ (bibliography with quality ratings)
+├── 00_Executive_Summary.md    # Signal rating, thesis, key metrics, monitoring checklist
+├── 01_Business_Foundation.md  # Phase 1: Products, revenue, customers
+├── 02_Industry_Analysis.md    # Phase 2: Industry cycle, competition
+├── 03_Business_Breakdown.md   # Phase 3: Profit drivers, economics
+├── 04_Financial_Quality.md    # Phase 4: Cash flow, margins, red flags, peers
+├── 05_Governance_Analysis.md  # Phase 5: Ownership, incentives, capital allocation
+├── 06_Market_Sentiment.md     # Phase 6: Bull/bear cases, verification nodes
+├── 07_Valuation_Moat.md       # Phase 7: Moat score, valuation, risk scenarios
+├── notes/                     # As-of baseline + raw per-agent findings (enables resume)
+└── sources/bibliography.md    # All citations with A-E ratings
 ```
 
 **Quality Standards**:

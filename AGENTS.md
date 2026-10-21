@@ -64,30 +64,16 @@ Stock Ticker → stock-question-refiner skill (clarifies needs)
 
 ```
 /datadrive/scratch/stock_research/STOCK_[ticker]_[company_name]/
-├── README.md                          # Navigation and overview
-├── 00_Executive_Summary.md            # Signal rating (🟢🟢🟢/🟡🟡🟡/🔴🔴) + thesis
-├── 01_Business_Foundation.md          # Phase 1: Products, revenue, customers
-├── 02_Industry_Analysis.md            # Phase 2: Industry cycle, competition
-├── 03_Business_Breakdown.md           # Phase 3: Profit drivers, economics
-├── 04_Financial_Quality.md            # Phase 4: Cash flow, margins, red flags
-├── 05_Governance_Analysis.md          # Phase 5: Ownership, management, capital allocation
-├── 06_Market_Sentiment.md             # Phase 6: Bull/bear cases
-├── 07_Valuation_Moat.md               # Phase 7: Moat rating, valuation scenarios
-├── Financial_Data/
-│   ├── key_metrics_table.md           # 5-10 year metrics, CAGR, ROE
-│   ├── cashflow_analysis.md           # OCF/NI ratio, accruals analysis
-│   └── peer_comparison.md             # vs. competitors
-├── Valuation/
-│   ├── historical_multiples.md        # P/E, P/B percentiles (5-10 years)
-│   ├── dcf_analysis.md                # DCF with scenarios
-│   └── reverse_dcf_implied_growth.md  # What growth is priced in?
-├── Risk_Monitoring/
-│   ├── bear_case.md                   # Downside scenarios
-│   ├── black_swans.md                 # Tail risks
-│   └── monitoring_checklist.md        # Future tracking (strengthen/exit triggers)
-└── sources/
-    ├── bibliography.md                # All citations with A-E quality ratings
-    └── data_sources.md                # Data source descriptions
+├── 00_Executive_Summary.md    # Signal rating, thesis, key metrics, monitoring checklist
+├── 01_Business_Foundation.md  # Phase 1: Products, revenue, customers
+├── 02_Industry_Analysis.md    # Phase 2: Industry cycle, competition
+├── 03_Business_Breakdown.md   # Phase 3: Profit drivers, economics
+├── 04_Financial_Quality.md    # Phase 4: Cash flow, margins, red flags, peers
+├── 05_Governance_Analysis.md  # Phase 5: Ownership, incentives, capital allocation
+├── 06_Market_Sentiment.md     # Phase 6: Bull/bear cases, verification nodes
+├── 07_Valuation_Moat.md       # Phase 7: Moat score, valuation, risk scenarios
+├── notes/                     # As-of baseline + raw per-agent findings (enables resume)
+└── sources/bibliography.md    # All citations with A-E ratings
 ```
 
 ### Stock Research Skills

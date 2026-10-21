@@ -261,7 +261,6 @@ User:
 **File Structure**:
 ```
 /datadrive/scratch/stock_research/STOCK_600519_Kweichow_Moutai/
-├── README.md
 ├── 00_Executive_Summary.md
 │   - Signal light rating with rationale
 │   - One-paragraph investment thesis
@@ -310,23 +309,8 @@ User:
 │   - DCF valuation with scenarios
 │   - Reverse DCF implied growth
 │   - Margin of safety assessment
-├── Financial_Data/
-│   ├── key_metrics_table.md
-│   ├── cashflow_analysis.md
-│   ├── peer_comparison.md
-│   └── historical_trends.md
-├── Valuation/
-│   ├── historical_multiples.md
-│   ├── dcf_analysis.md
-│   ├── reverse_dcf_implied_growth.md
-│   └── peer_valuation_matrix.md
-├── Risk_Monitoring/
-│   ├── bear_case.md
-│   ├── black_swans.md
-│   └── monitoring_checklist.md
-└── sources/
-    ├── bibliography.md
-    └── data_sources.md
+├── notes/
+└── sources/bibliography.md
 ```
 
 **Quality Standards**:

@@ -11,7 +11,7 @@ Target: the stock ticker or company name the user gave.
 Run the full 8-phase investment due diligence by chaining these skills, in order:
 
 1. **stock-question-refiner** - ask the clarifying questions, wait for answers, produce the structured research prompt.
-2. **stock-research-executor** - execute all 8 phases (follow its `phases.md`) and write every phase file. Do not stop until `00_Executive_Summary.md` and all `01`-`07` phase files exist.
+2. **stock-research-executor** - execute all 8 phases (follow its `phases.md`) and write every phase file. Do not stop until `00`-`07` and `sources/bibliography.md` exist. If the output folder already has partial results, resume from them.
 3. **citation-validator** - validate the finished report and fix what it flags.
 
 Output goes to `/datadrive/scratch/stock_research/STOCK_[ticker]_[company_name]/` (never inside this repo).

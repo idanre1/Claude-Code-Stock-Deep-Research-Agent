@@ -942,41 +942,275 @@ Include:
 
 ## Phase 5: Governance Analysis (股权与治理)
 
+### Objective
+
+Decide whether management and controlling shareholders are partners or extractors of minority shareholders. Good business + bad governance = high-volatility risk asset.
+
 ### Multi-Agent Deployment Strategy
 
 Deploy **4 agents in parallel**:
 
-#### Agent 5A: Ownership Structure
+#### Agent 5A: Ownership Structure and Related Parties
+
+**Objective**: Map who controls the company and where minority shareholders can be hurt
+
+**Key Questions**:
+- Who is the controlling shareholder / actual controller? Dual-class or voting agreements?
+- Board composition: independence, tenure, overlap with controller?
+- Share pledges (ratio and trend), announced sell-down plans, control-change risk?
+- Related-party transactions, competing businesses held by the controller, fund occupation?
+
+**Data to Find**:
+- Top 10 shareholders and insider ownership (latest filing), changes over 3 years
+- Voting vs. economic ownership
+- Pledge ratio (A-share/HK), insider sale plans (US: Form 4, 10b5-1)
+- Related-party transaction amounts vs. revenue/profit
+
+**Output Structure**:
+```markdown
+## Ownership Structure and Related Parties
+
+**Control Map** (text diagram): [controller] → [holding entity] → [company], voting % vs. economic %
+
+**Top Shareholders**:
+| Holder | % Shares | % Votes | 3Y Change | Type |
+|--------|----------|---------|-----------|------|
+
+**Governance Risk Radar**:
+| Risk | Level (H/M/L) | Evidence |
+|------|---------------|----------|
+| Control concentration | | |
+| Share pledges / insider selling | | |
+| Related-party transactions | | |
+| Competing businesses / fund occupation | | |
+| Board independence | | |
+
+**Announcements to Track**: [list]
+```
+
+---
 
 #### Agent 5B: Management Quality and Incentives
 
+**Objective**: Test whether management's incentives and track record align with long-term shareholders
+
+**Key Questions**:
+- What are the compensation and equity-incentive KPIs (revenue / profit / cash flow / ROIC / TSR)?
+- Are the KPIs easy to game (e.g., revenue or adjusted EPS instead of cash flow or ROIC)?
+- How hard are the targets vs. history and peers?
+- Do incentives reward short-term behavior (pushing revenue, cutting R&D)?
+- Say-do consistency: did management hit its own guidance over the last 3-5 years?
+
+**Data to Find**:
+- Proxy statement / remuneration report: pay mix, KPIs, thresholds
+- Stock-based compensation as % of revenue and of FCF; share-count trend
+- Past guidance vs. actual results (each year)
+- Insider buying vs. selling (24 months)
+
+**Output Structure**:
+```markdown
+## Management Quality and Incentives
+
+**Incentive KPIs**:
+| KPI | Weight | Target | Gameable? | Assessment |
+|-----|--------|--------|-----------|------------|
+
+**Key Clause Excerpts**: [quoted, with citation]
+
+**Guidance Track Record**:
+| Year | Guided | Actual | Hit/Miss |
+|------|--------|--------|----------|
+
+**SBC and Dilution**: SBC [x]% of revenue, [x]% of FCF; diluted shares [trend] over 5Y
+
+**Alignment Verdict**: [Aligned / Partly aligned / Misaligned] - [evidence]
+```
+
+---
+
 #### Agent 5C: Capital Allocation Track Record
 
-#### Agent 5D: Shareholder Returns and Overhang
+**Objective**: Judge where the money management earned actually went and what it returned
 
-*(Detailed instructions similar to above phases)*
+**Key Questions**:
+- Over 5-10 years, how was cash deployed (capex, M&A, buybacks, dividends, debt paydown)?
+- Did acquisitions create value or end in impairments/write-downs?
+- Is ROIC above the cost of capital, and is it trending up or down?
+- Were buybacks done at sensible prices, or did they only offset dilution?
+- Did recent equity raises, buybacks or deals add to or dilute EPS?
+
+**Data to Find**:
+- Cumulative cash deployment by use (5-10Y)
+- Major acquisitions: price, rationale, later impairments
+- ROIC by year (state formula), WACC estimate
+- Buyback volume and average price vs. share price range
+
+**Output Structure**:
+```markdown
+## Capital Allocation Track Record
+
+**Cash Deployment** (5-10Y cumulative):
+| Use | Amount | % of Total |
+|-----|--------|------------|
+
+**ROIC vs. WACC**:
+| Year | ROIC | WACC | Spread |
+|------|------|------|--------|
+
+**Major Deals**:
+| Year | Deal | Price | Outcome (impairments, returns) |
+|------|------|-------|--------------------------------|
+
+**Capital Allocation Grade**: [A-F] - [rationale]
+```
+
+---
+
+#### Agent 5D: Share Overhang and Event Calendar (筹码事件时间表)
+
+**Objective**: Build a 12-month calendar of events that change share supply
+
+**Key Questions**:
+- Upcoming lock-up expiries, employee share unlocks, secondary offerings, rights issues, convertible conversions?
+- Buyback program size, remaining authorization and execution pace?
+- Planned insider or major-holder sales?
+- For each event: potential selling pressure vs. absorption capacity, path to valuation impact, historical price reaction to similar events (if found)?
+
+**Output Structure**:
+```markdown
+## Share Overhang and Event Calendar (next 12 months)
+
+| Date | Event | Shares / Amount | % of Float | Selling Pressure vs. Absorption | Past Similar Reaction |
+|------|-------|-----------------|-----------|----------------------------------|-----------------------|
+
+**Net Assessment**: [overhang / neutral / supportive] - [reason]
+```
+
+---
+
+### Phase 5 Synthesis
+
+**Report Template**: `05_Governance_Analysis.md`
+
+Include:
+- Governance structure (text diagram) and risk radar
+- Management alignment verdict with key clause excerpts
+- Capital allocation grade with ROIC table
+- 12-month share event calendar
+- Announcements to track
 
 ---
 
 ## Phase 6: Market Sentiment (市场分歧)
 
+### Objective
+
+Lay out what bulls and bears are actually arguing about, and which future data will settle it. The value is not picking a side but knowing what to watch.
+
+**Rules for all Phase 6 agents**: Do not take sides. No investment advice. No emotional or partisan language. Every judgment must be verifiable by future data or events.
+
 ### Multi-Agent Deployment Strategy
 
 Deploy **4 agents in parallel**:
 
-#### Agent 6A: Bull Case Research
+#### Agent 6A: Bull Case
 
-#### Agent 6B: Bear Case Research
+**Objective**: Steelman the strongest bull thesis
 
-#### Agent 6C: Key Debate Points
+**Key Questions**:
+- What are the 3-5 core bull arguments, and who makes them (analysts, funds, management)?
+- What is the strongest evidence for each?
+- What must be true for the bull case to play out?
+
+**Output Structure**:
+```markdown
+## Bull Case
+
+| # | Argument | Key Evidence | Source | What Must Be True |
+|---|----------|--------------|--------|-------------------|
+```
+
+---
+
+#### Agent 6B: Bear Case
+
+**Objective**: Steelman the strongest bear thesis, actively searching for disconfirming evidence
+
+**Key Questions**:
+- What are the 3-5 core bear arguments, and who makes them?
+- Are there short-seller reports, regulatory probes, litigation, downgrades, accounting questions or negative press?
+- What is the strongest evidence for each?
+- What must be true for the bear case to play out?
+
+**Output Structure**:
+```markdown
+## Bear Case
+
+| # | Argument | Key Evidence | Source | What Must Be True |
+|---|----------|--------------|--------|-------------------|
+
+**Short Reports / Probes / Litigation**: [list with dates and status, or "none found"]
+```
+
+---
+
+#### Agent 6C: Key Debates and Consensus
+
+**Objective**: Identify where bulls and bears disagree and what the market consensus expects
+
+**Key Questions**:
+- What are the 3-5 points of disagreement?
+- What does sell-side consensus expect (revenue/EPS next 2 years, rating distribution)?
+- How have estimates been revised over the last 3-6 months?
+- Which disagreements can be resolved by future data?
+
+**Output Structure**:
+```markdown
+## Key Debates and Consensus
+
+**Consensus**: Revenue FY+1 [x], FY+2 [x]; EPS FY+1 [x], FY+2 [x]; ratings [buy/hold/sell counts]; revisions [up/down/flat]
+
+| Debate | Bull View | Bear View | Evidence Each Side | Resolvable by Data? |
+|--------|-----------|-----------|--------------------|---------------------|
+```
+
+---
 
 #### Agent 6D: Verification Nodes
 
-*(Detailed instructions)*
+**Objective**: Build a dated calendar of the events and data that will resolve the debates
+
+**Key Questions**:
+- What upcoming earnings, product launches, regulatory decisions, industry data releases or contract renewals matter?
+- For each, what metric and threshold would confirm the bull view vs. the bear view?
+
+**Output Structure**:
+```markdown
+## Verification Nodes
+
+| Date / Window | Event | Metric to Watch | Bull Confirmed If | Bear Confirmed If |
+|---------------|-------|-----------------|-------------------|-------------------|
+```
+
+---
+
+### Phase 6 Synthesis
+
+**Report Template**: `06_Market_Sentiment.md`
+
+Include:
+- Bull vs. bear comparison table
+- Consensus snapshot and revision trend
+- Debates that future data can settle
+- Verification node calendar
 
 ---
 
 ## Phase 7: Valuation & Moat (估值与护城河)
+
+### Objective
+
+Rate the durability of competitive advantages with evidence, and determine what assumptions the current price is betting on. Agents 7B-7D read `04_Financial_Quality.md` and `06_Market_Sentiment.md` first and reuse their numbers.
 
 ### Multi-Agent Deployment Strategy
 
@@ -984,13 +1218,136 @@ Deploy **4 agents in parallel**:
 
 #### Agent 7A: Competitive Moat Assessment
 
+**Objective**: Score the moat with verifiable evidence from company disclosures or authoritative sources
+
+**Key Questions**:
+1. **Pricing power**: 5-10 year gross margin, price-increase history, ability to pass on cost inflation?
+2. **Switching costs**: What does a customer lose by switching (systems, processes, compliance, ecosystem)?
+3. **Network / scale effects**: How does scale lower unit cost or improve the product?
+4. **Intangibles**: Verifiable brand, patents, licenses, data or channel barriers?
+5. **Competitive response**: How have rivals attacked, and how did the company defend (historical battles)?
+
+**Scoring rubric** (each dimension 0-5, weighted):
+| Dimension | Weight | Evidence Standard |
+|-----------|--------|-------------------|
+| Pricing power | 25% | Gross margin stability, price-increase history |
+| Switching costs | 20% | Retention/churn, system dependence |
+| Network effects | 20% | Value rising with user base |
+| Scale advantages | 15% | Unit-cost advantage vs. peers |
+| Intangible assets | 20% | Brand, patents, licenses, data |
+
+Weighted total: 0-2 no moat, 2-4 narrow moat, 4-5 wide moat.
+
+**Output Structure**:
+```markdown
+## Competitive Moat Assessment
+
+| Dimension | Score (0-5) | Weight | Evidence | Source |
+|-----------|-------------|--------|----------|--------|
+
+**Weighted Moat Score**: [x.x]/5 - [No / Narrow / Wide]
+
+**Historical Competitive Battles**: [attack → defense → outcome]
+
+**Most Likely Erosion Point**: [what] - Monitoring metric: [metric, threshold]
+```
+
+---
+
 #### Agent 7B: Relative Valuation
 
-#### Agent 7C: Absolute Valuation (DCF, Reverse DCF)
+**Objective**: Place the current valuation in historical and peer context
 
-#### Agent 7D: Risk Scenarios
+**Key Questions**:
+- Current P/E, P/B, P/S, EV/EBITDA, FCF yield (state price date from the baseline)?
+- Where does each sit in its 5-10 year historical range (percentile)?
+- Premium or discount to peers, and is it justified by growth, margins or returns?
 
-*(Detailed instructions)*
+**Output Structure**:
+```markdown
+## Relative Valuation (price as of [date])
+
+| Multiple | Current | 5-10Y Low | Median | High | Percentile |
+|----------|---------|-----------|--------|------|------------|
+
+| Multiple | Company | Peer 1 | Peer 2 | Peer 3 | Peer Median | Premium/Discount |
+|----------|---------|--------|--------|--------|-------------|------------------|
+
+**Assessment**: [cheap / fair / expensive vs. history and peers] - [is the premium/discount justified?]
+```
+
+---
+
+#### Agent 7C: Absolute Valuation (DCF and Reverse DCF)
+
+**Objective**: Build a transparent DCF and reverse it to find what the price implies. Produce a valuation range, not a price target.
+
+**Key Questions**:
+- Discount rate: risk-free rate, equity risk premium, beta, cost of debt, with sources?
+- 5-10 year FCF projection: revenue growth, margin, reinvestment rate, each tied to Phase 3-4 evidence?
+- Terminal growth and its justification?
+- Sensitivity: discount rate × terminal growth (or × margin)?
+- Reverse DCF: what revenue growth and margin path does the current market cap imply? Is that realistic vs. history and consensus?
+- Which 2 assumptions are most likely wrong, and how can they be verified?
+
+**Output Structure**:
+```markdown
+## Absolute Valuation
+
+**Key Assumptions**:
+| Assumption | Bear | Base | Bull | Basis / Source |
+|------------|------|------|------|----------------|
+
+**Intrinsic Value per Share**: Bear [x] / Base [x] / Bull [x] vs. current price [x] ([date])
+
+**Sensitivity** (value per share):
+| WACC \ g | [g1] | [g2] | [g3] |
+|----------|------|------|------|
+
+**Reverse DCF**: Current price implies [x]% revenue CAGR and [x]% FCF margin for [n] years - vs. 5Y history [x]% and consensus [x]%
+
+**Most Fragile Assumptions**:
+1. [assumption] - how to verify: [data / event]
+2. [assumption] - how to verify: [data / event]
+```
+
+---
+
+#### Agent 7D: Risk Scenarios and Black Swans
+
+**Objective**: Quantify downside scenarios and define exit triggers
+
+**Key Questions**:
+- What does the bear scenario do to earnings and valuation (quantified)?
+- Black swans: regulation, technology disruption, geopolitics, key-customer loss, accounting?
+- Probability and impact of each?
+- What observable thresholds would invalidate the thesis?
+
+**Output Structure**:
+```markdown
+## Risk Scenarios
+
+| Risk | Probability (H/M/L) | Impact (H/M/L) | Effect on Earnings / Value | Early Warning Signal |
+|------|---------------------|----------------|----------------------------|----------------------|
+
+**Black Swans**: [list with mechanism]
+
+**Thesis-Breaking Triggers** (exit):
+- [ ] [metric] falls below/above [threshold]
+- [ ] [event] happens
+```
+
+---
+
+### Phase 7 Synthesis
+
+**Report Template**: `07_Valuation_Moat.md`
+
+Include:
+- Moat score table and erosion point
+- Relative valuation dashboard (historical percentile + peers)
+- DCF range, sensitivity, reverse DCF implied expectations
+- Risk matrix and thesis-breaking triggers
 
 ---
 
@@ -1002,11 +1359,9 @@ Combine all findings into a comprehensive investment due diligence report.
 
 ### Tasks
 
-1. Review all 7 phase reports
-2. Generate executive summary with signal rating
-3. Create financial data summary tables
-4. Create monitoring checklist
-5. Compile bibliography
+1. Read the Executive Summary and Key Takeaways of `01`-`07`
+2. Write `00_Executive_Summary.md` using the template below (key metrics table, monitoring checklist and risks live here)
+3. Merge every phase's Sources section into `sources/bibliography.md`, deduplicated, with A-E grades
 
 ### Executive Summary Structure
 
@@ -1112,6 +1467,7 @@ Combine all findings into a comprehensive investment due diligence report.
 ---
 
 **Report Generated**: [Date]
+**Data As Of**: [latest filing period] / price date [date]
 **Research Phases Completed**: 8/8
 **Sources Analyzed**: [number]
 **Confidence Level**: [High/Medium/Low]

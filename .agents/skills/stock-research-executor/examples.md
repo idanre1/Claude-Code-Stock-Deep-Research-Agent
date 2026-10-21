@@ -57,7 +57,7 @@ This document provides practical examples of how to execute the 8-phase investme
 
 ### Output Structure
 Directory: `/datadrive/scratch/stock_research/STOCK_600519_Kweichow_Moutai/`
-20 files as per standard template
+`00`-`07` phase files + `notes/` + `sources/bibliography.md`
 
 ### Estimated Timeline
 - Phase 1: 15-20 min
@@ -72,7 +72,7 @@ Directory: `/datadrive/scratch/stock_research/STOCK_600519_Kweichow_Moutai/`
 
 ---
 
-**Ready to proceed?**
+[Plan logged; execution starts immediately]
 ```
 
 ---
@@ -113,38 +113,16 @@ All 4 agents are now running concurrently. I'll collect their findings once comp
 
 ### Collecting Results
 
-After agents complete (typically 3-5 minutes each, but parallelized so total ~5 min):
+Each agent writes its full findings to `notes/1A.md` ... `notes/1D.md` and returns only a short summary:
 
 ```
-**Phase 1 Agent Results Summary**:
-
-**Agent 1A** (Products):
-- Core product: 飞天茅台 (Feitian Moutai) - premium baijiu
-- Series products: 王子酒、迎宾酒, etc. - mid/lower tier
-- Revenue mix: 飞天茅台 ~85% of revenue, series ~15%
-- Brand positioning: "National Moutai" - luxury baijiu for gift-giving and banquets
-
-**Agent 1B** (Revenue):
-- 2023 Revenue: ¥127.5B (+18.2% YoY)
-- Gross margin: 91.2% (stable, premium pricing)
-- 飞天茅台 margin: ~93%, Series margin: ~75%
-- Net income: ¥74.7B (+18.3% YoY)
-
-**Agent 1C** (Customers):
-- Primary customers: High-income individuals, businesses (gift-giving), government (official banquets)
-- Distribution: ~95% through wholesale distributors, ~5% direct (i茅台APP growing)
-- Customer concentration: No single customer >5%
-- Value chain: Upstream (grain sourcing) → Production (proprietary fermentation) → Distribution (wholesale) → End customers
-
-**Agent 1D** (Strategy):
-- 2022: Launched i茅台APP (direct-to-consumer)
-- 2023: Increased direct sales to 5% from <1%
-- 2021-2023: Multiple price increases (~10-15% cumulative)
-- Strategy: Capture more margin by cutting out distributors
-
-**Consensus**: All agents confirm Moutai is a premium baijiu producer with dominant brand, expanding direct sales.
-**No Contradictions**: Findings are consistent across agents.
+[1A] notes/1A.md | 飞天茅台 ~85% of revenue; series products ~15%; luxury gifting positioning | Gap: segment margins not disclosed
+[1B] notes/1B.md | 2023 revenue ¥127.5B (+18.2%); gross margin 91.2%; NI ¥74.7B | Gap: product-level margins estimated by press only
+[1C] notes/1C.md | ~95% via distributors, i茅台 direct rising; no customer >5% | Gap: channel inventory data
+[1D] notes/1D.md | i茅台APP 2022; 2021-23 price increases; margin capture from distributors | Gap: none
 ```
+
+Then one synthesis subagent reads `notes/1*.md` and writes `01_Business_Foundation.md`. The main session never loads the raw notes.
 
 ---
 

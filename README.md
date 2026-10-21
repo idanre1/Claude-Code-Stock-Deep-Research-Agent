@@ -116,10 +116,8 @@ A flexible **7-phase framework** for general research topics (business, technolo
 ├── 05_Governance_Analysis.md      # Ownership, management
 ├── 06_Market_Sentiment.md         # Bull/bear cases
 ├── 07_Valuation_Moat.md           # Moat rating, valuation
-├── Financial_Data/                # Metrics, trends, peer comparison
-├── Valuation/                     # DCF, scenarios
-├── Risk_Monitoring/               # Bear case, monitoring checklist
-└── sources/                       # Citations with quality ratings
+├── notes/                         # Baseline + raw per-agent findings
+└── sources/bibliography.md        # Citations with quality ratings
 ```
 
 ---
