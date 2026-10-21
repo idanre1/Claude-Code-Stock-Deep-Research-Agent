@@ -229,6 +229,7 @@ Use whatever the host agent provides for: web search, web fetch, file read/write
 
 ### Research Quality
 - **Stock Research**: Mandatory profit vs. cash flow validation, company vs. peer comparison, bear case analysis
+- **Numbers**: US financials come from SEC EDGAR via `stock-research-executor/scripts/fin_data.py`; valuation math via `scripts/valuation.py`. Every computed number carries a method slug that maps to a paper in `stock-research-executor/methods.md`
 - Use **Chain-of-Verification (CoVe)**: Generate → Verify → Correct
 - Rate confidence (High/Medium/Low)
 - Acknowledge contradictions between sources

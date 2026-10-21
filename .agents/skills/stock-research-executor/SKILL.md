@@ -19,7 +19,7 @@ Turn a structured research prompt from `stock-question-refiner` into a cited, 8-
 ├── 05_Governance_Analysis.md  # Phase 5
 ├── 06_Market_Sentiment.md     # Phase 6
 ├── 07_Valuation_Moat.md       # Phase 7
-├── notes/                     # 00_baseline.md + one raw file per agent (1A.md ... 7D.md)
+├── notes/                     # 00_baseline.md, 00_financials.md, one raw file per agent (1A.md ... 7D.md)
 └── sources/bibliography.md    # All citations with A-E ratings
 ```
 
@@ -42,11 +42,19 @@ Establish and write `notes/00_baseline.md`:
 - Next scheduled earnings date
 - Current share price, shares outstanding and market cap, with the price date
 
+For US (SEC) filers, also run the financial data script, which needs only the Python standard library and network access:
+
+```bash
+python3 <this skill dir>/scripts/fin_data.py [TICKER] --out [output_dir]/notes/00_financials.md
+```
+
+It pulls 10 years of 10-K data from SEC EDGAR XBRL (Grade A) and computes margins, DuPont ROE, OCF/NI, accruals, the Piotroski F-score and CAGRs. Each metric is tagged with a method slug from [methods.md](methods.md). For non-US tickers it exits with a message; Phase 4 then collects the figures by web research.
+
 Every agent uses this baseline. Data older than the latest filing must be labeled with its period.
 
 ### Step 2: Phases 1-7
 
-For each phase, launch its 4 agents (briefs in [phases.md](phases.md)) **in parallel** as subagents, using the template below. Phases 1-6 are independent; if the host allows more parallel subagents, run two phases at once. Run Phase 7 after `04` and `06` exist; its agents read those files.
+For each phase, launch its 4 agents (briefs in [phases.md](phases.md)) **in parallel** as subagents, using the template below (`[skill_dir]` = absolute path of this skill folder). Phases 1-6 are independent; if the host allows more parallel subagents, run two phases at once. Run Phase 7 after `04` and `06` exist; its agents read those files.
 
 When a phase's agents finish, launch one synthesis subagent: read `notes/<N>*.md`, write `0N_*.md` using that phase's report template in [phases.md](phases.md), and return at most 5 lines. Do not read raw notes in the main session; this keeps its context small enough to finish all 8 phases.
 
@@ -65,6 +73,9 @@ User priorities: [style, horizon, risk tolerance, focus areas, specific concerns
 Rules:
 - Base all figures on the latest filings in the baseline. Label anything older with its period.
 - If data cannot be found, write "not found". Never estimate from memory or invent numbers.
+- Never do arithmetic by hand. Reuse notes/00_financials.md, run [skill_dir]/scripts/valuation.py
+  (--help for usage), or run code. Tag every computed number with its method slug from
+  [skill_dir]/methods.md, e.g. "OCF/NI 1.87 [sloan-1996]".
 - Cite every factual claim: [Organization, Title, Date, URL] plus an A-E grade.
 - Label [FACT] vs [JUDGMENT]; give each key finding a confidence (High/Medium/Low).
 

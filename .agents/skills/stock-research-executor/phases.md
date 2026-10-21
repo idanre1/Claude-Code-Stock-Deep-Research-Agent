@@ -376,9 +376,12 @@ Deploy **4 agents in parallel**:
 - What are the market shares (CR5, HHI if available)?
 - How intense is competition? (price wars, innovation, differentiation)
 - What are the barriers to entry/exit?
+- **Value-chain profit capture**: map the chain (inputs → company → customers → end users). Where is the binding constraint (bottleneck)? Pricing power sits there. Does the company *capture* the industry's growth (margin and ROIC rising) or only *transit* it (revenue up, margins flat or falling, with value passed to suppliers or customers)?
+- Classify the company as **value captor** (growth + margin expansion), **volume taker** (growth, flat margin), **optionality** (exposure not yet in earnings) or **cost bearer** (its input costs rise with the trend). Revenue growth alone is not benefit.
 
 **Data to Find**:
 - Major competitors and market shares
+- Margin and ROIC trend of the company vs. its key suppliers and customers (who is gaining share of the profit pool?)
 - Industry concentration (CR5, CR10)
 - Competitive dynamics (price competition, innovation, consolidation)
 - Recent M&A activity
@@ -562,9 +565,11 @@ Deploy **4 agents in parallel**:
 - What are the key cost components?
 - Are there economies of scale?
 - What's the incremental margin on new business?
+- Does the earnings evidence confirm the value-chain role assigned in Phase 2 (captor / volume taker / optionality / cost bearer)? Look for backlog, book-to-bill, price/mix vs. volume split, guidance raises and management Q&A admissions. If the evidence contradicts Phase 2, say so.
 
 **Data to Find**:
 - Unit economics (if disclosed)
+- Revenue growth split into price, mix and volume
 - Cost structure (fixed vs. variable)
 - Operating leverage
 - Gross margin trends and drivers
@@ -723,6 +728,8 @@ Deploy **4 agents in parallel**:
 
 **Objective**: Calculate and analyze key financial metrics over 5-10 years
 
+**Start from `notes/00_financials.md`** (SEC XBRL data produced by `scripts/fin_data.py`; US filers only). Use its numbers and method slugs as they are. Search the web only for items it marks n/a, for non-US companies, and for ROIC. Any additional arithmetic runs in code, never by hand.
+
 **Key Questions**:
 - What are the growth rates (revenue, net income, CAGR)?
 - What's the profitability (margins, ROE, ROIC)?
@@ -770,6 +777,8 @@ Deploy **4 agents in parallel**:
 #### Agent 4B: Cash Flow Quality
 
 **Objective**: Assess earnings quality through cash flow analysis
+
+Use OCF/NI and FCF/NI `[sloan-1996]`, the accruals ratio `[hribar-collins-2002]` and the Piotroski F-score `[piotroski-2000]` from `notes/00_financials.md`. Explain *why* they moved (working capital, capex cycle, stock-based compensation, one-offs), with filing citations.
 
 **Key Questions**:
 - Do earnings convert to cash? (OCF/NI, FCF/NI)
@@ -1282,6 +1291,8 @@ Weighted total: 0-2 no moat, 2-4 narrow moat, 4-5 wide moat.
 
 **Objective**: Build a transparent DCF and reverse it to find what the price implies. Produce a valuation range, not a price target.
 
+**All valuation arithmetic runs through `scripts/valuation.py`** (`wacc`, `dcf` for bear/base/bull, `reverse`). Cite a source for every input (risk-free rate, beta, ERP, base FCF, growth path, net debt and shares from `notes/00_financials.md`). Paste the script output with its method slugs into the notes. If base FCF is negative, use a normalized base and state how it was derived.
+
 **Key Questions**:
 - Discount rate: risk-free rate, equity risk premium, beta, cost of debt, with sources?
 - 5-10 year FCF projection: revenue growth, margin, reinvestment rate, each tied to Phase 3-4 evidence?
@@ -1361,7 +1372,7 @@ Combine all findings into a comprehensive investment due diligence report.
 
 1. Read the Executive Summary and Key Takeaways of `01`-`07`
 2. Write `00_Executive_Summary.md` using the template below (key metrics table, monitoring checklist and risks live here)
-3. Merge every phase's Sources section into `sources/bibliography.md`, deduplicated, with A-E grades
+3. Merge every phase's Sources section into `sources/bibliography.md`, deduplicated, with A-E grades. Add a "Methods" section listing the full reference from [methods.md](methods.md) for every method slug used in the report
 
 ### Executive Summary Structure
 
