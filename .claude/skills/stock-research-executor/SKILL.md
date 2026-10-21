@@ -122,7 +122,7 @@ Based on the structured prompt, create a detailed execution plan:
 **Phase 8**: Synthesis and report generation
 
 ### Output Structure
-Directory: `RESEARCH/STOCK_[ticker]_[company]/`
+Directory: `/datadrive/scratch/stock_research/STOCK_[ticker]_[company]/`
 Files: [list all files to be created]
 
 ### Estimated Timeline
@@ -367,7 +367,7 @@ https://www.cninfo.com.cn/new/disclosure/detail?stockCode=600519&announcementId=
 Always use this standardized structure:
 
 ```
-RESEARCH/STOCK_[ticker]_[company_name]/
+/datadrive/scratch/stock_research/STOCK_[ticker]_[company_name]/
 ├── README.md                          # Navigation and overview
 ├── 00_Executive_Summary.md            # Signal rating + thesis + summary
 ├── 01_Business_Foundation.md          # Phase 1

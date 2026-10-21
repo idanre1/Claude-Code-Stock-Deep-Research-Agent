@@ -158,11 +158,11 @@ Once you have sufficient clarity, generate a structured investment research prom
 
 ### Final Instructions
 
-**Output Directory**: `RESEARCH/STOCK_[ticker]_[company_name]/`
+**Output Directory**: `/datadrive/scratch/stock_research/STOCK_[ticker]_[company_name]/`
 
 **File Structure**:
 ```
-RESEARCH/STOCK_[ticker]_[company_name]/
+/datadrive/scratch/stock_research/STOCK_[ticker]_[company_name]/
 ├── README.md (navigation and overview)
 ├── 00_Executive_Summary.md (signal rating + core logic)
 ├── 01_Business_Foundation.md (Phase 1)
@@ -217,9 +217,8 @@ Before delivering the structured research prompt, verify:
 
 See [examples.md](examples.md) for detailed examples of:
 1. Value investing research prompt (A-share blue chip)
-2. Growth investing research prompt (US tech stock)
-3. Turnaround research prompt (distressed company)
-4. Dividend investing research prompt (high-yield stock)
+2. Following up when the user gives incomplete information
+3. How emphasis changes by investment style (value/growth/turnaround/dividend)
 
 ## Critical Success Factors
 

@@ -10,6 +10,8 @@ This repository contains **two specialized deep research frameworks** for Claude
 
 2. **General Deep Research** - A flexible 7-phase framework for general research topics (available but secondary focus).
 
+> **Research output location (mandatory)**: all research output - stock and general - goes to `/datadrive/scratch/stock_research/`, never inside this repo. Past reports live there too; read them for reference when useful.
+
 **Core Philosophy**: Transform vague research questions into comprehensive, well-cited research reports through structured processes with multi-agent parallel research.
 
 ---
@@ -55,13 +57,13 @@ Stock Ticker → stock-question-refiner skill (clarifies needs)
                 ↓
      citation-validator skill (verify accuracy)
                 ↓
-     Investment Due Diligence Report (RESEARCH/STOCK_[ticker]_[company]/)
+     Investment Due Diligence Report (/datadrive/scratch/stock_research/STOCK_[ticker]_[company]/)
 ```
 
 ### Stock Research Output Structure
 
 ```
-RESEARCH/STOCK_[ticker]_[company_name]/
+/datadrive/scratch/stock_research/STOCK_[ticker]_[company_name]/
 ├── README.md                          # Navigation and overview
 ├── 00_Executive_Summary.md            # Signal rating (🟢🟢🟢/🟡🟡🟡/🔴🔴) + thesis
 ├── 01_Business_Foundation.md          # Phase 1: Products, revenue, customers
@@ -131,7 +133,7 @@ Claude: [Generates structured research prompt]
        [Synthesizes findings into comprehensive report]
        [Validates all citations]
 
-Output: RESEARCH/STOCK_600519_Kweichow_Moutai/
+Output: /datadrive/scratch/stock_research/STOCK_600519_Kweichow_Moutai/
        🟡🟡🟡 Hold / Fairly Valued
        - Strong brand moat (5/5)
        - Exceptional margins (91% gross, 53% net)
@@ -178,7 +180,7 @@ Output: RESEARCH/STOCK_600519_Kweichow_Moutai/
 ## General Research Output
 
 ```
-RESEARCH/[topic_name]/
+/datadrive/scratch/stock_research/[topic_name]/
 ├── README.md
 ├── executive_summary.md
 ├── full_report.md
@@ -238,8 +240,8 @@ Based on [SPCL/ETH Zürich research](https://github.com/spcl/graph-of-thoughts):
 ## Implementation Notes
 
 ### File Management
-- Stock research: `RESEARCH/STOCK_[ticker]_[company]/`
-- General research: `RESEARCH/[topic_name]/`
+- Stock research: `/datadrive/scratch/stock_research/STOCK_[ticker]_[company]/`
+- General research: `/datadrive/scratch/stock_research/[topic_name]/`
 - Break large reports into smaller files (avoid context limits)
 - Use descriptive filenames
 
@@ -285,7 +287,7 @@ Claude: [stock-research-executor]
 ```
 "Use the stock-question-refiner skill to help refine my stock research on [ticker]"
 "Use the stock-research-executor skill to execute due diligence on [company]"
-"Use the citation-validator skill on RESEARCH/STOCK_[ticker]/full_report.md"
+"Use the citation-validator skill on /datadrive/scratch/stock_research/STOCK_[ticker]/full_report.md"
 ```
 
 ## Documentation Files
@@ -293,11 +295,8 @@ Claude: [stock-research-executor]
 | File | Purpose |
 |------|---------|
 | `CLAUDE.md` | This file - quick reference for Claude Code |
-| `CLAUDE2.md` | Complete Graph of Thoughts implementation |
-| `PROJECT_UNDERSTANDING.md` | Architecture and design decisions |
-| `IMPLEMENTATION_GUIDE.md` | User guide for commands and skills |
-| `STOCK_RESEARCH_IMPLEMENTATION_PLAN.md` | Stock research system implementation plan |
-| `skills.md` | Skill documentation (Chinese) |
+| `README.md` | User-facing overview |
+| `.claude/skills/*/SKILL.md` | Skill definitions (`phases.md` holds the per-phase agent briefs) |
 
 ## Important Disclaimers
 

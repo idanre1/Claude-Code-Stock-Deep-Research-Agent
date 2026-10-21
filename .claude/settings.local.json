@@ -7,7 +7,11 @@
       "WebSearch",
       "Bash(mkdir:*)",
       "Bash(dir:*)",
-      "Skill(stock-research-executor)"
+      "Skill(stock-research-executor)",
+      "Edit(//datadrive/scratch/stock_research/**)"
+    ],
+    "additionalDirectories": [
+      "/datadrive/scratch/stock_research"
     ]
   }
 }

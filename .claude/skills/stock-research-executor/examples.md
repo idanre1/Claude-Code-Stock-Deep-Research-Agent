@@ -56,7 +56,7 @@ This document provides practical examples of how to execute the 8-phase investme
 [Full plan for all phases - 28 total agents]
 
 ### Output Structure
-Directory: `RESEARCH/STOCK_600519_Kweichow_Moutai/`
+Directory: `/datadrive/scratch/stock_research/STOCK_600519_Kweichow_Moutai/`
 20 files as per standard template
 
 ### Estimated Timeline
@@ -304,7 +304,7 @@ Kweichow Moutai is China's leading premium baijiu producer with a dominant marke
 After completing a phase, invoke `citation-validator` skill:
 
 ```
-Please validate the citations in RESEARCH/STOCK_600519_Kweichow_Moutai/01_Business_Foundation.md
+Please validate the citations in /datadrive/scratch/stock_research/STOCK_600519_Kweichow_Moutai/01_Business_Foundation.md
 
 Check for:
 1. Completeness: Every claim has author, date, title, URL
@@ -561,5 +561,5 @@ This examples file demonstrates:
 6. **Final Synthesis**: How to create a comprehensive executive summary
 
 For detailed phase-by-phase instructions, see [phases.md](phases.md).
-For overall execution instructions, see [instructions.md](instructions.md).
+For overall execution instructions, see [SKILL.md](SKILL.md).
 For core skill definition, see [SKILL.md](SKILL.md).

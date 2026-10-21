@@ -73,7 +73,7 @@ Structure and write comprehensive research sections with inline citations for EV
 
 **Required Output Structure**:
 ```
-[output_directory]/
+/datadrive/scratch/stock_research/
 └── [topic_name]/
     ├── README.md
     ├── executive_summary.md

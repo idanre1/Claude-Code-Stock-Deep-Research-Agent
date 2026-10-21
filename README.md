@@ -79,10 +79,6 @@ A flexible **7-phase framework** for general research topics (business, technolo
 | **.claude/skills/citation-validator/** | Citation verification skill |
 | **.claude/skills/got-controller/** | Graph of Thoughts controller |
 | **.claude/skills/synthesizer/** | Findings synthesis skill |
-| **STOCK_RESEARCH_IMPLEMENTATION_PLAN.md** | Stock research system design document |
-| **CLAUDE2.md** | Graph of Thoughts implementation details |
-| **PROJECT_UNDERSTANDING.md** | Architecture deep dive |
-| **IMPLEMENTATION_GUIDE.md** | User guide |
 
 ---
 
@@ -109,14 +105,14 @@ claude
 **The system will**:
 1. Ask about your investment style (价值/成长/困境/红利), holding period, risk tolerance
 2. Deploy ~28 parallel research agents across 7 phases
-3. Generate comprehensive due diligence report in `RESEARCH/STOCK_[ticker]_[company]/`
+3. Generate comprehensive due diligence report in `/datadrive/scratch/stock_research/STOCK_[ticker]_[company]/`
 
 **Time**: 2-4 hours for standard due diligence
 
 ### Output Example
 
 ```
-RESEARCH/STOCK_600519_Kweichow_Moutai/
+/datadrive/scratch/stock_research/STOCK_600519_Kweichow_Moutai/
 ├── 00_Executive_Summary.md        # 🟡🟡🟡 Hold / Fairly Valued
 ├── 01_Business_Foundation.md      # Products, revenue, customers
 ├── 02_Industry_Analysis.md        # Industry cycle, competition
@@ -200,7 +196,7 @@ Claude: [Generating research plan...]
        [DCF valuation with 3 scenarios...]
        [Identifying bear case risks...]
 
-Output: RESEARCH/STOCK_600519_Kweichow_Moutai/
+Output: /datadrive/scratch/stock_research/STOCK_600519_Kweichow_Moutai/
 
 🟡🟡🟡 Hold / Fairly Valued
 
@@ -380,5 +376,4 @@ MIT License. See `LICENSE` file for full details.
 
 For detailed documentation:
 - See `CLAUDE.md` for Claude Code instructions
-- See `STOCK_RESEARCH_IMPLEMENTATION_PLAN.md` for system design
 - See `.claude/skills/*/` for skill-specific instructions 

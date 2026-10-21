@@ -1008,6 +1008,171 @@ Combine all findings into a comprehensive investment due diligence report.
 4. Create monitoring checklist
 5. Compile bibliography
 
+### Executive Summary Structure
+
+```markdown
+# Executive Summary
+
+## Signal Rating
+
+🟢🟢🟢 **Strong Buy** / 🟡🟡🟡 **Hold** / 🔴🔴 **Avoid**
+
+**Rationale**: [2-3 sentences explaining the rating]
+
+## Investment Thesis
+
+**One-Liner**: [Single sentence capturing the essence]
+
+**Detailed Thesis**: [2-3 paragraph narrative explaining:
+- Why this company is (or isn't) attractive
+- Key competitive advantages (or lack thereof)
+- Primary risks and concerns
+- What would make the thesis change]
+
+## Key Metrics Summary
+
+| Metric | Value | Context |
+|--------|-------|---------|
+| Market Cap | [amount] | [context: large/mid/small cap] |
+| TTM Revenue | [amount] | [growth rate vs. prior year] |
+| TTM Net Income | [amount] | [margin %] |
+| P/E (TTM) | [value] | [percentile vs. 5-year history] |
+| P/B | [value] | [percentile vs. 5-year history] |
+| ROE | [value] | [above/below peer average] |
+| Dividend Yield | [value] | [if applicable] |
+
+## Top 3 Reasons to Consider
+
+1. **[Reason 1]**: [2-3 sentences with evidence]
+2. **[Reason 2]**: [2-3 sentences with evidence]
+3. **[Reason 3]**: [2-3 sentences with evidence]
+
+## Top 3 Reasons to Avoid
+
+1. **[Risk 1]**: [2-3 sentences with evidence]
+2. **[Risk 2]**: [2-3 sentences with evidence]
+3. **[Risk 3]**: [2-3 sentences with evidence]
+
+## Financial Health Score
+
+**Overall**: [Excellent/Good/Fair/Poor]
+
+**Breakdown**:
+- Profitability: [score/rating]
+- Cash Flow Quality: [score/rating]
+- Balance Sheet Strength: [score/rating]
+- Growth Sustainability: [score/rating]
+
+## Valuation Assessment
+
+**Relative Valuation**: [Undervalued/Fairly Valued/Overvalued]
+- Trading at [percentile]th percentile of [X]-year historical [PE/PB]
+- [Premium/Discount] to peers of [X]%
+
+**Absolute Valuation**:
+- DCF intrinsic value: [price/value per share]
+- Margin of safety: [X]% (if undervalued)
+- Implied growth: [X]% (from reverse DCF)
+
+## Moat Assessment
+
+**Overall Rating**: [0-5]/5
+
+**Components**:
+- Pricing Power: [score/5] - [evidence]
+- Switching Costs: [score/5] - [evidence]
+- Network Effects: [score/5] - [evidence]
+- Cost Advantages: [score/5] - [evidence]
+- Intangible Assets: [score/5] - [evidence]
+
+## Monitoring Checklist
+
+**Thesis Strengthening Conditions**:
+- [ ] [Event/indicator that would make the bull case stronger]
+- [ ] [Event/indicator that would make the bull case stronger]
+
+**Thesis-Breaking Exit Triggers**:
+- [ ] [Event/indicator that would invalidate the investment thesis, exit immediately]
+- [ ] [Event/indicator that would invalidate the investment thesis, exit immediately]
+
+## Key Risks
+
+1. **[Risk Category]**: [description]
+   - Probability: [High/Medium/Low]
+   - Impact: [High/Medium/Low]
+   - Monitoring: [what to watch]
+
+2. **[Risk Category]**: [description]
+   - ...
+
+## Conclusion
+
+[2-3 sentence conclusion summarizing the investment case]
+
+---
+
+**Report Generated**: [Date]
+**Research Phases Completed**: 8/8
+**Sources Analyzed**: [number]
+**Confidence Level**: [High/Medium/Low]
+
+**Disclaimer**: This research is for educational and informational purposes only and does not constitute investment advice. All investments involve risk. Past performance does not guarantee future results. Always conduct your own due diligence and consult with qualified financial advisors.
+```
+
+### Special Scenarios
+
+#### Scenario 1: Distressed Company (e.g., bankruptcy risk)
+
+**Adjustments**:
+- Emphasize Phases 4 (solvency) and 7 (liquidation value)
+- Add: "Going Concern vs. Liquidation" analysis
+- Valuation: Focus on recovery scenarios, probability-weighted expected value
+- Risk analysis: Emphasize binary outcomes and timing risks
+
+#### Scenario 2: High-Growth Company (unprofitable)
+
+**Adjustments**:
+- Phase 4: Focus on cash burn rate, runway, path to profitability
+- Valuation: Use user value models, TAM penetration, growth-over-earnings
+- Skip: Traditional P/E, DCF (if no current cash flow)
+- Add: Growth sustainability assessment, competitive moat durability
+
+#### Scenario 3: Newly Public (IPO)
+
+**Adjustments**:
+- Phase 1: Emphasize IPO prospectus analysis
+- Phase 4: Limited historical data (use prospectus financials)
+- Phase 5: Check for lock-up expirations, insider selling plans
+- Valuation: Difficult (no trading history), focus on prospectus guidance
+
+#### Scenario 4: Foreign Company (e.g., Chinese A-share)
+
+**Adjustments**:
+- Data sources: Emphasize local language sources (Chinese for A-shares)
+- Translation: Provide bilingual or clarify if using English sources
+- Regulatory: Include country-specific regulatory risks
+- Accounting: Note if using IFRS, GAAP, or local standards (CAS for China)
+
+### Search Troubleshooting
+
+#### Issue: Cannot Find Information
+
+**Solution**:
+1. Try alternative search queries
+2. Search in different languages (if foreign company)
+3. Look in regulatory filings instead of news
+4. Acknowledge limitation explicitly in report
+5. Flag for user to investigate further
+
+#### Issue: WebSearch Returns Poor Results
+
+**Solution**:
+1. Use more specific, targeted queries
+2. Add site: filters (e.g., "site:sec.gov", "site:cninfo.com.cn")
+3. Use file type filters (e.g., "filetype:pdf annual report")
+4. Try alternative search terms
+5. Check if company has changed names or tickers
+
 ---
 
 For execution examples demonstrating these phases, see [examples.md](examples.md).
