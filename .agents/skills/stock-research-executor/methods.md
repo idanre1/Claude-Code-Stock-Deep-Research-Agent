@@ -25,6 +25,12 @@ Numbers come from [scripts/fin_data.py](scripts/fin_data.py) (SEC EDGAR XBRL, US
 | `gordon-1959` | Terminal value | TV = FCF_n × (1+g) / (r − g) | Requires r > g |
 | `rappaport-mauboussin-2001` | Reverse DCF | Solve for the FCF growth that makes DCF value per share = price | Compare implied growth with history and consensus |
 
+## Scoring rubrics (judgment, not statistics)
+
+| Slug | Score | Formula | Basis |
+|------|-------|---------|-------|
+| `moat-rubric` | Moat score (0-5) | Σ weight × dimension score, weights from Phase 7A in [phases.md](phases.md) | Moat sources per Dorsey (2008); scores are analyst judgment backed by cited evidence |
+
 ## References
 
 - **sloan-1996**: Sloan, R. G. (1996). Do Stock Prices Fully Reflect Information in Accruals and Cash Flows about Future Earnings? *The Accounting Review*, 71(3), 289-315. https://doi.org/10.2308/tar-9608042309 (JSTOR: https://www.jstor.org/stable/248290)
@@ -37,3 +43,4 @@ Numbers come from [scripts/fin_data.py](scripts/fin_data.py) (SEC EDGAR XBRL, US
 - **damodaran-2007**: Damodaran, A. (2007). Valuation Approaches and Metrics: A Survey of the Theory and Evidence. *Foundations and Trends in Finance*, 1(8), 693-784. https://doi.org/10.1561/0500000013
 - **rappaport-mauboussin-2001**: Rappaport, A., & Mauboussin, M. J. (2001). *Expectations Investing: Reading Stock Prices for Better Returns*. Harvard Business School Press. Summary: Mauboussin, M. J. (2006), CFA Institute Conference Proceedings, https://doi.org/10.2469/cp.v23.n3.4260
 - **def-cagr**: Standard compound annual growth rate definition; no paper needed.
+- **moat-rubric**: Dorsey, P. (2008). *The Little Book That Builds Wealth: The Knockout Formula for Finding Great Investments*. Wiley. ISBN 978-0-470-22651-3. Rubric weights are this skill's own convention.

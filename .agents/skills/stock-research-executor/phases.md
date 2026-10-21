@@ -1245,7 +1245,7 @@ Deploy **4 agents in parallel**:
 | Scale advantages | 15% | Unit-cost advantage vs. peers |
 | Intangible assets | 20% | Brand, patents, licenses, data |
 
-Weighted total: 0-2 no moat, 2-4 narrow moat, 4-5 wide moat.
+Weighted total: 0-2 no moat, 2-4 narrow moat, 4-5 wide moat. Tag the score `[moat-rubric]`.
 
 **Output Structure**:
 ```markdown
