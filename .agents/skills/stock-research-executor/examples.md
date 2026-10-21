@@ -86,22 +86,22 @@ Directory: `/datadrive/scratch/stock_research/STOCK_600519_Kweichow_Moutai/`
 ```
 I'm now launching 4 research agents in parallel for Phase 1: Business Foundation...
 
-[Task Agent 1A]
+[Agent 1A]
 Research Kweichow Moutai's core business and products.
 Focus: Product portfolio, business segments, revenue drivers.
 Sources: Annual reports, company website, investor presentations.
 
-[Task Agent 1B]
+[Agent 1B]
 Research Kweichow Moutai's revenue and profit composition.
 Focus: Segment breakdown, profitability by product, revenue trends.
 Sources: Segment reporting, financial statements, MD&A.
 
-[Task Agent 1C]
+[Agent 1C]
 Research Kweichow Moutai's customers and value chain position.
 Focus: Customer segments, distribution channels, competitive position.
 Sources: Industry reports, company disclosures, channel analysis.
 
-[Task Agent 1D]
+[Agent 1D]
 Research Kweichow Moutai's recent strategic changes (past 3-5 years).
 Focus: i茅台APP, direct-to-consumer initiatives, pricing strategy evolution.
 Sources: Annual reports (past 5 years), news archives, press releases.

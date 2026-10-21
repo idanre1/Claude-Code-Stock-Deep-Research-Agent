@@ -139,10 +139,10 @@ The Synthesizer is often called after GoT **Aggregate** operations to create coh
 
 ## Tool Usage
 
-### Read/Write
+### File tools
 Save synthesis outputs to `full_report.md`, `executive_summary.md`, `synthesis_notes.md`
 
-### Task (for additional research)
+### Subagents (for additional research)
 If synthesis reveals gaps, launch new research agents
 
 ## Best Practices

@@ -1,10 +1,10 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for AI coding agents (GitHub Copilot and other AGENTS.md-aware tools) working in this repository. Skills live in `.agents/skills/` and are invoked by name or as `/skill-name`.
 
 ## Project Overview
 
-This repository contains **two specialized deep research frameworks** for Claude Code:
+This repository contains **two specialized deep research frameworks** for AI coding agents:
 
 1. **Stock Investment Research** (股票投资尽调) - A specialized 8-phase investment due diligence framework for analyzing publicly traded companies. This is the **primary focus** of this repository.
 
@@ -92,7 +92,7 @@ Stock Ticker → stock-question-refiner skill (clarifies needs)
 
 ### Stock Research Skills
 
-Located in `.claude/skills/`:
+Located in `.agents/skills/` (`stock-research` is the entry point that chains the others):
 
 | Skill | Purpose | When Used |
 |-------|---------|-----------|
@@ -118,7 +118,7 @@ Located in `.claude/skills/`:
 ```
 User: /stock-research 贵州茅台 600519
 
-Claude: [Uses stock-question-refiner skill]
+Agent: [Uses stock-question-refiner skill]
        我可以帮您研究贵州茅台。让我先了解您的投资需求：
 
        1. 投资风格：价值投资/成长投资/困境反转/红利投资？
@@ -128,7 +128,7 @@ Claude: [Uses stock-question-refiner skill]
 
 User: 价值投资，长期持有3年以上，关注：生意质量、公司治理、估值，风险保守
 
-Claude: [Generates structured research prompt]
+Agent: [Generates structured research prompt]
        [Deploys 28 parallel research agents across 7 phases]
        [Synthesizes findings into comprehensive report]
        [Validates all citations]
@@ -150,11 +150,11 @@ Output: /datadrive/scratch/stock_research/STOCK_600519_Kweichow_Moutai/
 ## Key Commands
 
 ```bash
-# Step-by-step general research workflow
-/refine-question [raw question]
-/plan-research [structured prompt]
-/synthesize-findings [directory]
-/validate-citations [file]
+# Step-by-step general research workflow (each skill is a slash command)
+/question-refiner [raw question]
+/research-executor [structured prompt]
+/synthesizer [directory]
+/citation-validator [file]
 ```
 
 ## General Research Skills
@@ -225,17 +225,7 @@ Based on [SPCL/ETH Zürich research](https://github.com/spcl/graph-of-thoughts):
 
 ## Key Tools
 
-### Built-in Tools
-- `WebSearch`: General web searches
-- `WebFetch`: Extract content from URLs
-- `Read`/`Write`: Manage research documents
-- `Task`: Deploy autonomous research agents
-- `TodoWrite`: Track research progress
-- `Skill`: Invoke specialized skills
-
-### MCP Servers
-- `mcp__web_reader__webReader`: Enhanced web content extraction
-- `mcp__4_5v_mcp__analyze_image`: Analyze charts/graphs/images
+Use whatever the host agent provides for: web search, web fetch, file read/write, subagents (parallel research agents), a todo list for progress tracking, and skill invocation.
 
 ## Implementation Notes
 
@@ -246,10 +236,10 @@ Based on [SPCL/ETH Zürich research](https://github.com/spcl/graph-of-thoughts):
 - Use descriptive filenames
 
 ### Multi-Agent Coordination
-- **Always** launch agents in **parallel** (single message, multiple Task calls)
+- **Always** launch agents in **parallel** (single message, multiple subagent calls)
 - Each agent should have distinct focus
 - Always include cross-reference/verification agent
-- Use TodoWrite to track progress
+- Use the todo list to track progress
 
 ### Research Quality
 - **Stock Research**: Mandatory profit vs. cash flow validation, company vs. peer comparison, bear case analysis
@@ -267,7 +257,7 @@ Based on [SPCL/ETH Zürich research](https://github.com/spcl/graph-of-thoughts):
 ```
 User: /stock-research [ticker]
 
-Claude: [stock-question-refiner]
+Agent: [stock-question-refiner]
        "I'll help you research [company]. Let me clarify:
         1. Investment style? (value/growth/turnaround/dividend)
         2. Holding period? (short/medium/long)
@@ -276,7 +266,7 @@ Claude: [stock-question-refiner]
 
 User: [Answers]
 
-Claude: [stock-research-executor]
+Agent: [stock-research-executor]
        [Deploys ~28 agents across 7 phases]
        [Generates comprehensive due diligence report]
        [citation-validator]
@@ -294,9 +284,9 @@ Claude: [stock-research-executor]
 
 | File | Purpose |
 |------|---------|
-| `CLAUDE.md` | This file - quick reference for Claude Code |
+| `AGENTS.md` | This file - quick reference for AI agents |
 | `README.md` | User-facing overview |
-| `.claude/skills/*/SKILL.md` | Skill definitions (`phases.md` holds the per-phase agent briefs) |
+| `.agents/skills/*/SKILL.md` | Skill definitions (`phases.md` holds the per-phase agent briefs) |
 
 ## Important Disclaimers
 

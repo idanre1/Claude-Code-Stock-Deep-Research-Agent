@@ -1,4 +1,4 @@
-# Claude Code Stock Deep Research Agent
+# Stock Deep Research Agent
 
 **Investment Research Edition** - 专业股票投资尽调系统
 
@@ -16,10 +16,10 @@
   ---
   🎓 研究框架
 
-  本研究基于 Claude Code Deep Research 系统：
+  本研究基于 AI agent Deep Research 系统：
   - 方法论: 8阶段股票投资尽调框架
   - 智能体: 28个并行研究智能体
-  - 工具: WebSearch、WebFetch、综合分析
+  - 工具: Web search、web fetch、综合分析
   - 质量: 多空平衡、明确风险、数据验证
 
   ---
@@ -39,7 +39,7 @@
 
 ## Features
 
-This repository contains **two specialized deep research frameworks** for Claude Code:
+This repository contains **two specialized deep research frameworks** for AI coding agents (GitHub Copilot and other tools that read `.agents/skills/`):
 
 ### 1. 🎯 Stock Investment Research (股票投资尽调系统) ⭐ PRIMARY
 
@@ -72,13 +72,14 @@ A flexible **7-phase framework** for general research topics (business, technolo
 
 | File/Folder | Purpose |
 |-------------|---------|
-| **CLAUDE.md** | Master instructions for Claude Code |
-| **.claude/skills/stock-question-refiner/** | Stock research question refinement skill |
-| **.claude/skills/stock-research-executor/** | 8-phase investment due diligence executor |
-| **.claude/commands/stock-research.md** | Main stock research command |
-| **.claude/skills/citation-validator/** | Citation verification skill |
-| **.claude/skills/got-controller/** | Graph of Thoughts controller |
-| **.claude/skills/synthesizer/** | Findings synthesis skill |
+| **AGENTS.md** | Always-on instructions for AI agents |
+| **.agents/skills/stock-research/** | Entry point: `/stock-research` |
+| **.agents/skills/stock-question-refiner/** | Stock research question refinement skill |
+| **.agents/skills/stock-research-executor/** | 8-phase investment due diligence executor |
+| **.agents/skills/citation-validator/** | Citation verification skill |
+| **.agents/skills/got-controller/** | Graph of Thoughts controller |
+| **.agents/skills/synthesizer/** | Findings synthesis skill |
+| `/datadrive/scratch/stock_research/` | All research output (outside the repo) |
 
 ---
 
@@ -87,13 +88,7 @@ A flexible **7-phase framework** for general research topics (business, technolo
 ### Stock Research (股票投资尽调)
 
 ```bash
-# Start Claude Code
-claude
-
-# Set model (optional, but recommended)
-/model opus
-
-# Execute stock research
+# Open the repo in VS Code (Copilot Chat, agent mode) or Copilot CLI, then:
 /stock-research [股票代码或公司名称]
 
 # Examples:
@@ -179,7 +174,7 @@ The system adapts research approach based on investment style:
 ```
 User: /stock-research 贵州茅台 600519
 
-Claude: 我可以帮您研究贵州茅台。让我先了解您的投资需求：
+Agent: 我可以帮您研究贵州茅台。让我先了解您的投资需求：
 
        1. 投资风格：价值投资/成长投资/困境反转/红利投资？
        2. 持有周期：短期(<6月)/中期(6-18月)/长期(1-3年以上)?
@@ -188,7 +183,7 @@ Claude: 我可以帮您研究贵州茅台。让我先了解您的投资需求：
 
 User: 价值投资，长期持有3年以上，关注：生意质量、公司治理、估值，风险保守
 
-Claude: [Generating research plan...]
+Agent: [Generating research plan...]
        [Deploying 28 parallel research agents...]
        [Analyzing 5-10 years of financial data...]
        [Comparing with Wuliangye, Yanghe, Fenjiu...]
@@ -334,7 +329,7 @@ Adjust research parameters by answering the question-refiner's questions with yo
 ### Core System
 - **Research Methodology**: Inspired by OpenAI and Google Gemini deep research playbooks
 - **Prompt Generation**: Eliminates need for external question-refinement tools
-- **Claude Code Integration**: Leverages native Skills and Commands capabilities
+- **Agent Skills**: Vendor-neutral skills in `.agents/skills/`
 
 ### Development
 - **Developed by**: Ankit at [My Business Care Team (MyBCAT)](https://mybcat.com)
@@ -375,5 +370,5 @@ MIT License. See `LICENSE` file for full details.
 ## Support
 
 For detailed documentation:
-- See `CLAUDE.md` for Claude Code instructions
-- See `.claude/skills/*/` for skill-specific instructions 
+- See `AGENTS.md` for agent instructions
+- See `.agents/skills/*/` for skill-specific instructions 

@@ -168,13 +168,13 @@ Maintain graph state using this structure:
 
 ## Tool Usage
 
-### Task Tool (Multi-Agent Deployment)
-Launch multiple Task agents in ONE response for Generate operations
+### Subagents (Multi-Agent Deployment)
+Launch multiple subagents in ONE response for Generate operations
 
-### TodoWrite (Progress Tracking)
+### Todo list (Progress Tracking)
 Track GoT operations: Generate(k), Score, KeepBestN(n), Aggregate(k), Refine(1)
 
-### Read/Write (Graph Persistence)
+### File tools (Graph Persistence)
 Save graph state to files: `research_notes/got_graph_state.md`, `research_notes/got_operations_log.md`
 
 ## Best Practices

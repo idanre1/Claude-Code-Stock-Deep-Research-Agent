@@ -1,12 +1,12 @@
 ---
-description: 对指定股票执行完整的投资尽调研究，从问题细化到最终报告生成。执行8阶段投资研究流程：公司事实底座、行业周期分析、业务拆解、财务质量、股权治理、市场分歧、估值护城河、综合报告。
-argument-hint: [股票代码或公司名称，例如：600519, AAPL, 茅台]
-allowed-tools: Task, WebSearch, WebFetch, mcp__web_reader__webReader, Read, Write, TodoWrite, Skill
+name: stock-research
+description: "Entry point for full stock investment due diligence (股票投资尽调). Chains stock-question-refiner, stock-research-executor and citation-validator into the 8-phase process: 公司事实底座、行业周期分析、业务拆解、财务质量、股权治理、市场分歧、估值护城河、综合报告. Use when the user asks to research, analyze or do due diligence on a stock, ticker or listed company."
+argument-hint: "Stock ticker or company name, e.g. 600519, AAPL, 茅台"
 ---
 
 # Stock Research
 
-Target: $ARGUMENTS
+Target: the stock ticker or company name the user gave.
 
 Run the full 8-phase investment due diligence by chaining these skills, in order:
 

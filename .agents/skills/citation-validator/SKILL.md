@@ -77,7 +77,7 @@ Assign quality rating (A-E) to each complete citation.
 
 ### Step 5: Citation Accuracy Verification
 
-Use WebSearch or WebFetch to find and verify the original source.
+Use the web search or web fetch tool to find and verify the original source.
 
 ### Step 6: Hallucination Detection
 
@@ -122,13 +122,13 @@ For high-stakes claims (medical, legal, financial):
 
 ## Tool Usage
 
-### WebSearch (for verification)
+### Web search (for verification)
 Search for claims to verify: exact claim in quotes, keywords, author names, source titles
 
-### WebFetch (for source access)
+### Web fetch (for source access)
 Access sources to confirm figures, dates, context, and find DOI/URL
 
-### Read/Write (for documentation)
+### File tools (for documentation)
 Save validation reports to `sources/citation_validation_report.md`
 
 ## Special Considerations

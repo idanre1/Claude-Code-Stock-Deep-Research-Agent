@@ -35,14 +35,14 @@ Break down the main research question into actionable subtopics and create a res
 
 ### Phase 3: Iterative Querying (Multi-Agent Execution)
 
-Deploy multiple Task agents in parallel to gather information from different sources.
+Deploy multiple subagents in parallel to gather information from different sources.
 
 **Agent Types**:
 - **Web Research Agents (3-5 agents)**: Current information, trends, news, industry reports
 - **Academic/Technical Agent (1-2 agents)**: Research papers, technical specifications, methodologies
 - **Cross-Reference Agent (1 agent)**: Fact-checking and verification
 
-**Execution Protocol**: Launch ALL agents in a single response using multiple Task tool calls. Use `run_in_background: true` for long-running agents.
+**Execution Protocol**: Launch ALL agents in a single response using multiple subagent tool calls (background mode for long-running agents, if supported).
 
 ### Phase 4: Source Triangulation
 
@@ -66,7 +66,7 @@ Structure and write comprehensive research sections with inline citations for EV
 **Chain-of-Verification Process**:
 1. Generate Initial Findings
 2. Create Verification Questions for each key claim
-3. Search for Evidence using WebSearch
+3. Search for Evidence using web search
 4. Cross-reference verification results with original findings
 
 ### Phase 7: Output & Packaging
@@ -98,22 +98,21 @@ Structure and write comprehensive research sections with inline citations for EV
 
 ## Tool Usage Guidelines
 
-### WebSearch
+### Web search
 - Use for initial source discovery
 - Try multiple query variations
 - Use domain filtering for authoritative sources
 
-### WebFetch / mcp__web_reader__webReader
+### Web fetch
 - Use for extracting content from specific URLs
-- Prefer mcp__web_reader__webReader for better extraction
 
-### Task (Multi-Agent Deployment)
+### Subagents (Multi-Agent Deployment)
 - **CRITICAL**: Launch multiple agents in ONE response
-- Use `subagent_type="general-purpose"` for research agents
+- Use a general-purpose subagent type for research agents
 - Provide clear, detailed prompts to each agent
-- Use `run_in_background: true` for long tasks
+- Use background mode for long tasks, if supported
 
-### Read/Write
+### File tools
 - Save research findings to files regularly
 - Create organized folder structure
 - Maintain source-to-claim mapping files

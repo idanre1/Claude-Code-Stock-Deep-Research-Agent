@@ -1,7 +1,6 @@
 ---
 name: stock-research-executor
 description: 股票投资调研执行引擎，执行8阶段投资尽调流程。接收stock-question-refiner生成的结构化调研指令，部署多智能体并行研究，生成带引用的投资尽调报告。覆盖：公司事实底座、行业周期、业务拆解、财务质量、股权治理、市场分歧、估值护城河、综合报告。当用户需要进行股票投资研究、基本面分析、投资尽调时使用此技能。
-allowed-tools: Task, WebSearch, WebFetch, mcp__web_reader__webReader, Read, Write, TodoWrite
 ---
 
 # Stock Research Executor
@@ -135,7 +134,7 @@ Ready to proceed?
 
 ### Step 3: Deploy Multi-Agent Research (Phases 1-7)
 
-For each phase, deploy multiple Task agents in **parallel** (single message, multiple tool calls).
+For each phase, deploy multiple subagents in **parallel** (single message, multiple tool calls).
 
 **Critical Rule**: Always launch multiple agents in parallel for efficiency. DO NOT launch agents sequentially.
 
@@ -156,10 +155,9 @@ You are a research agent focused on [specific aspect] of [company name] ([ticker
 **Your Task**: [specific research objective]
 
 **Tools to Use**:
-1. Start with WebSearch to find relevant sources
-2. Use WebFetch to extract content from promising URLs
-3. Use mcp__web_reader__webReader for better content extraction
-4. Cross-reference claims across multiple sources
+1. Start with web search to find relevant sources
+2. Use web fetch to extract content from promising URLs
+3. Cross-reference claims across multiple sources
 
 **Research Focus**:
 - [Specific questions to answer]

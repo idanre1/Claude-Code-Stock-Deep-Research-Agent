@@ -104,7 +104,7 @@ AI diagnostic accuracy, FDA AI medical devices, clinical decision support system
 Ready to proceed with research execution?
 ```
 
-**Phase 3: Iterative Querying** (Launches 6 parallel Task agents)
+**Phase 3: Iterative Querying** (Launches 6 parallel subagents)
 
 **Phase 7: Final Output**
 ```markdown

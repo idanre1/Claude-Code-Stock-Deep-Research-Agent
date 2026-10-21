@@ -1164,7 +1164,7 @@ Combine all findings into a comprehensive investment due diligence report.
 4. Acknowledge limitation explicitly in report
 5. Flag for user to investigate further
 
-#### Issue: WebSearch Returns Poor Results
+#### Issue: Web Search Returns Poor Results
 
 **Solution**:
 1. Use more specific, targeted queries
