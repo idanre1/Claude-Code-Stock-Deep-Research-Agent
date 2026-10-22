@@ -1120,7 +1120,7 @@ Lay out what bulls and bears are actually arguing about, and which future data w
 
 ### Multi-Agent Deployment Strategy
 
-Deploy **4 agents in parallel**:
+Deploy **5 agents in parallel** (6E is descriptive market context):
 
 #### Agent 6A: Bull Case
 
@@ -1203,6 +1203,31 @@ Deploy **4 agents in parallel**:
 
 ---
 
+#### Agent 6E: Market Context (descriptive, never part of the signal)
+
+**Objective**: Describe how the market is positioned, without forecasting price
+
+**Inputs**: `notes/00_market.md` (price snapshot and technicals from `scripts/market_data.py`; reuse its numbers and slugs, do not recompute)
+
+**Key Questions**:
+- Trend and momentum: price vs. SMA50/200, RSI, 12-1 momentum, 12-month return vs. benchmark?
+- Ownership: largest institutional holders and recent changes (SEC 13F filings or the exchange equivalent), with filing dates?
+- Short interest and days to cover (FINRA or exchange data), with settlement date?
+- Macro and catalyst calendar for the next 6 months (central bank meetings, index events, sector data)?
+- Options: implied volatility and skew only if an options chain was actually retrieved; otherwise write "not retrieved"
+
+**Output Structure**:
+```markdown
+## Market Context (descriptive; excluded from the signal rating)
+
+| Item | Value | As of | Source / Slug |
+|------|-------|-------|---------------|
+
+**Positioning read**: [2-3 sentences, no price forecast]
+```
+
+---
+
 ### Phase 6 Synthesis
 
 **Report Template**: `06_Market_Sentiment.md`
@@ -1212,6 +1237,7 @@ Include:
 - Consensus snapshot and revision trend
 - Debates that future data can settle
 - Verification node calendar
+- Market Context appendix from 6E, labeled "descriptive; excluded from the signal rating"
 
 ---
 
@@ -1291,10 +1317,16 @@ Weighted total: 0-2 no moat, 2-4 narrow moat, 4-5 wide moat. Tag the score `[moa
 
 **Objective**: Build a transparent DCF and reverse it to find what the price implies. Produce a valuation range, not a price target.
 
-**All valuation arithmetic runs through `scripts/valuation.py`** (`wacc`, `dcf` for bear/base/bull, `reverse`). Cite a source for every input (risk-free rate, beta, ERP, base FCF, growth path, net debt and shares from `notes/00_financials.md`). Paste the script output with its method slugs into the notes. If base FCF is negative, use a normalized base and state how it was derived.
+**All valuation arithmetic runs through `scripts/valuation.py`** (`wacc`, `dcf` for bear/base/bull, `reverse`). Cite a dated source for every input: risk-free rate from the U.S. Treasury yield curve (or the home-country government bond), cost of debt from the company's most recent bond issue or filing, beta, ERP, net debt and shares from `notes/00_financials.md`. Add `--save [output_dir]/notes/valuation_runs.jsonl` to every run so the model can be re-run, and paste the script output with its method slugs into the notes.
+
+**Funding bridge (required when FCF is negative or capex is rising)**: before the DCF, build a yearly table from filings and guidance, then feed the resulting signed FCF straight into `dcf --fcf-path=...` (negative years allowed; the final year must be positive). Do not normalize a negative base into a positive one.
+
+| Year | OCF | Gross capex | Customer advances / prepayments | New lease commitments | Interest paid | Debt raised (repaid) | Equity issued / dilution | FCF to firm |
+|------|-----|-------------|---------------------------------|-----------------------|---------------|----------------------|--------------------------|-------------|
 
 **Key Questions**:
-- Discount rate: risk-free rate, equity risk premium, beta, cost of debt, with sources?
+- Discount rate: risk-free rate, equity risk premium, beta, cost of debt, with dated sources?
+- How is the build-out funded year by year, and how much dilution or new debt does that imply per share?
 - 5-10 year FCF projection: revenue growth, margin, reinvestment rate, each tied to Phase 3-4 evidence?
 - Terminal growth and its justification?
 - Sensitivity: discount rate × terminal growth (or × margin)?
@@ -1308,6 +1340,8 @@ Weighted total: 0-2 no moat, 2-4 narrow moat, 4-5 wide moat. Tag the score `[moa
 **Key Assumptions**:
 | Assumption | Bear | Base | Bull | Basis / Source |
 |------------|------|------|------|----------------|
+
+**Funding Bridge**: [table above, or "not needed: FCF positive and capex stable"]
 
 **Intrinsic Value per Share**: Bear [x] / Base [x] / Bull [x] vs. current price [x] ([date])
 
@@ -1376,112 +1410,66 @@ Combine all findings into a comprehensive investment due diligence report.
 
 ### Executive Summary Structure
 
+At most 1,200 words. Link to phase files for detail instead of repeating it. Quote the price and quote time from `notes/00_market.md`.
+
 ```markdown
 # Executive Summary
 
 ## Signal Rating
 
-🟢🟢🟢 **Strong Buy** / 🟡🟡🟡 **Hold** / 🔴🔴 **Avoid**
+🟢🟢🟢 **Strong Buy** / 🟡🟡🟡 **Hold** / 🔴🔴 **Avoid**   |   **Data confidence**: High / Medium / Low
 
-**Rationale**: [2-3 sentences explaining the rating]
+**Rationale**: [2-3 sentences]. The signal scores the business and price; data confidence scores how well the evidence supports it. Keep them separate.
+
+**Why this rating given the valuation**: [Reconcile the signal with the DCF range and reverse DCF. If the price sits outside the bear-base range, say explicitly why the rating is still Hold/Buy/Avoid.]
 
 ## Investment Thesis
 
-**One-Liner**: [Single sentence capturing the essence]
+**One-Liner**: [single sentence]
 
-**Detailed Thesis**: [2-3 paragraph narrative explaining:
-- Why this company is (or isn't) attractive
-- Key competitive advantages (or lack thereof)
-- Primary risks and concerns
-- What would make the thesis change]
+**Three drivers that decide the outcome**:
+1. **[Driver]**: [evidence, metric now, what would change it]
+2. **[Driver]**: ...
+3. **[Driver]**: ...
 
-## Key Metrics Summary
+## Key Metrics
 
 | Metric | Value | Context |
 |--------|-------|---------|
-| Market Cap | [amount] | [context: large/mid/small cap] |
-| TTM Revenue | [amount] | [growth rate vs. prior year] |
-| TTM Net Income | [amount] | [margin %] |
-| P/E (TTM) | [value] | [percentile vs. 5-year history] |
-| P/B | [value] | [percentile vs. 5-year history] |
-| ROE | [value] | [above/below peer average] |
-| Dividend Yield | [value] | [if applicable] |
+| Price / Market Cap | [x] at [quote time, exchange] | |
+| TTM Revenue / growth | | |
+| TTM Net Income / margin | | |
+| OCF/NI, FCF | | [profit vs. cash] |
+| ROIC | | [vs. WACC] |
+| P/E, EV/EBITDA | | [percentile vs. history, vs. peers] |
+| DCF bear / base / bull | | [implied growth from reverse DCF] |
+| Moat | [0-5] | [width, erosion point] |
 
-## Top 3 Reasons to Consider
+## Bull vs. Bear
 
-1. **[Reason 1]**: [2-3 sentences with evidence]
-2. **[Reason 2]**: [2-3 sentences with evidence]
-3. **[Reason 3]**: [2-3 sentences with evidence]
+| Top 3 reasons to consider | Top 3 reasons to avoid |
+|---------------------------|------------------------|
+| 1. [one sentence + evidence] | 1. [one sentence + evidence] |
 
-## Top 3 Reasons to Avoid
+## Decisive Dates
 
-1. **[Risk 1]**: [2-3 sentences with evidence]
-2. **[Risk 2]**: [2-3 sentences with evidence]
-3. **[Risk 3]**: [2-3 sentences with evidence]
+| Date / Window | Event | What it settles |
+|---------------|-------|-----------------|
 
-## Financial Health Score
+## Monitoring State
 
-**Overall**: [Excellent/Good/Fair/Poor]
+| Metric | Source | Next Date | Threshold (strengthen / exit) | Rationale | Current | Status |
+|--------|--------|-----------|-------------------------------|-----------|---------|--------|
 
-**Breakdown**:
-- Profitability: [score/rating]
-- Cash Flow Quality: [score/rating]
-- Balance Sheet Strength: [score/rating]
-- Growth Sustainability: [score/rating]
-
-## Valuation Assessment
-
-**Relative Valuation**: [Undervalued/Fairly Valued/Overvalued]
-- Trading at [percentile]th percentile of [X]-year historical [PE/PB]
-- [Premium/Discount] to peers of [X]%
-
-**Absolute Valuation**:
-- DCF intrinsic value: [price/value per share]
-- Margin of safety: [X]% (if undervalued)
-- Implied growth: [X]% (from reverse DCF)
-
-## Moat Assessment
-
-**Overall Rating**: [0-5]/5
-
-**Components**:
-- Pricing Power: [score/5] - [evidence]
-- Switching Costs: [score/5] - [evidence]
-- Network Effects: [score/5] - [evidence]
-- Cost Advantages: [score/5] - [evidence]
-- Intangible Assets: [score/5] - [evidence]
-
-## Monitoring Checklist
-
-**Thesis Strengthening Conditions**:
-- [ ] [Event/indicator that would make the bull case stronger]
-- [ ] [Event/indicator that would make the bull case stronger]
-
-**Thesis-Breaking Exit Triggers**:
-- [ ] [Event/indicator that would invalidate the investment thesis, exit immediately]
-- [ ] [Event/indicator that would invalidate the investment thesis, exit immediately]
-
-## Key Risks
-
-1. **[Risk Category]**: [description]
-   - Probability: [High/Medium/Low]
-   - Impact: [High/Medium/Low]
-   - Monitoring: [what to watch]
-
-2. **[Risk Category]**: [description]
-   - ...
+Status = pass / fail / not testable yet.
 
 ## Conclusion
 
-[2-3 sentence conclusion summarizing the investment case]
+[2-3 sentences]
 
 ---
 
-**Report Generated**: [Date]
-**Data As Of**: [latest filing period] / price date [date]
-**Research Phases Completed**: 8/8
-**Sources Analyzed**: [number]
-**Confidence Level**: [High/Medium/Low]
+**Data As Of**: [latest filing period] / price [x] at [quote time] | **Sources**: [n] | **Phases**: 8/8
 
 **Disclaimer**: This research is for educational and informational purposes only and does not constitute investment advice. All investments involve risk. Past performance does not guarantee future results. Always conduct your own due diligence and consult with qualified financial advisors.
 ```

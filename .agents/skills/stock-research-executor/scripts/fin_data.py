@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Annual financials from SEC EDGAR XBRL (US filers) + quality metrics, as markdown.
 
-Usage:  fin_data.py TICKER [--years 10] [--out notes/00_financials.md]
+Usage:  fin_data.py TICKER [--years 10] [--out notes/00_financials.md] [--json notes/00_financials.json]
 Env:    SEC_USER_AGENT="Your Name you@domain.com"  (SEC asks for a contact)
 Method slugs in [brackets] are defined in ../methods.md.
 """
@@ -35,6 +35,9 @@ TAGS = {  # first tag found wins for each fiscal year
     "stdebt": ["DebtCurrent", "LongTermDebtCurrent"],
     "cp": ["CommercialPaper"],
     "cash": ["CashAndCashEquivalentsAtCarryingValue"],
+    "pretax": ["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+               "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
+    "tax": ["IncomeTaxExpenseBenefit"],
 }
 INSTANT = {"assets", "ca", "cl", "equity", "ltdebt", "debt", "stdebt", "cp", "cash"}
 
@@ -100,6 +103,8 @@ def fmt(v, kind):
         return "n/a"
     if kind == "m":
         return f"{v / 1e6:,.0f}"
+    if kind == "pct2":
+        return f"{v * 100:.2f}%"
     if kind == "pct":
         return f"{v * 100:.1f}%"
     if kind in ("x", "eps"):
@@ -112,6 +117,7 @@ def main():
     ap.add_argument("ticker")
     ap.add_argument("--years", type=int, default=10)
     ap.add_argument("--out")
+    ap.add_argument("--json", help="also save the raw values as JSON (portable model inputs)")
     a = ap.parse_args()
 
     tick = a.ticker.upper().replace(".", "-")
@@ -151,6 +157,19 @@ def main():
 
     def positive(v, base):  # ratio is not meaningful when its base is <= 0
         return v if base is not None and base > 0 else None
+
+    def ic(y):  # invested capital = total debt + equity − cash
+        return None if None in (debt(y), g("equity", y), g("cash", y)) else debt(y) + g("equity", y) - g("cash", y)
+
+    def roic(y):  # NOPAT at the reported effective tax rate / avg invested capital
+        pretax = g("pretax", y)
+        if pretax is None and None not in (g("ni", y), g("tax", y)):
+            pretax = g("ni", y) + g("tax", y)
+        etr = positive(div(g("tax", y), pretax), pretax)
+        base = avg(ic(y), ic(prev.get(y)))
+        if etr is None or g("opinc", y) is None:
+            return None
+        return positive(div(g("opinc", y) * (1 - etr), base), base)
 
     def roa(y):  # Piotroski scales by beginning-of-year assets
         return div(g("ni", y), g("assets", prev.get(y)))
@@ -202,6 +221,7 @@ def main():
         ("Asset turnover = Rev / avg assets", lambda y: div(g("rev", y), pa("assets", y)), "x"),
         ("Equity multiplier = avg assets / avg equity",
          lambda y: positive(div(pa("assets", y), pa("equity", y)), pa("equity", y)), "x"),
+        ("ROIC = OpInc × (1 − ETR) / avg (debt + equity − cash)", roic, "pct2"),
         ("**Earnings quality**", None, None),
         ("OCF / NI [sloan-1996]", lambda y: positive(div(g("ocf", y), g("ni", y)), g("ni", y)), "x"),
         ("FCF / NI [sloan-1996]", lambda y: positive(div(fcf(y), g("ni", y)), g("ni", y)), "x"),
@@ -246,6 +266,14 @@ def main():
         out += ["", "## Not Found in XBRL", "",
                 "Get these from the filing text or report \"not found\": "
                 + ", ".join(f"`{k}` ({' / '.join(TAGS[k])})" for k in missing)]
+
+    if a.json:
+        bundle = {"ticker": tick, "cik": cik, "source": url, "retrieved": str(dt.date.today()),
+                  "units": "USD; ratios as decimals", "fiscal_year_ends": show,
+                  "metrics": {label.strip("*"): {y: f(y) for y in show} for label, f, _ in rows if f}}
+        with open(a.json, "w") as fh:
+            json.dump(bundle, fh, indent=1, default=str)
+        print(f"wrote {a.json}")
 
     text = "\n".join(out) + "\n"
     if a.out:

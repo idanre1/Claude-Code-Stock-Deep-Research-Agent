@@ -52,7 +52,7 @@ Stock Ticker → stock-question-refiner skill (clarifies needs)
                 ├─ Phase 3: Business Breakdown (4 agents)
                 ├─ Phase 4: Financial Quality (4 agents)
                 ├─ Phase 5: Governance Analysis (4 agents)
-                ├─ Phase 6: Market Sentiment (4 agents)
+                ├─ Phase 6: Market Sentiment (4 agents + market context)
                 └─ Phase 7: Valuation & Moat (4 agents)
                 ↓
      citation-validator skill (verify accuracy)
@@ -64,15 +64,15 @@ Stock Ticker → stock-question-refiner skill (clarifies needs)
 
 ```
 /datadrive/scratch/stock_research/STOCK_[ticker]_[company_name]/
-├── 00_Executive_Summary.md    # Signal rating, thesis, key metrics, monitoring checklist
+├── 00_Executive_Summary.md    # ≤1,200 words: signal + data confidence, 3 drivers, monitoring state table
 ├── 01_Business_Foundation.md  # Phase 1: Products, revenue, customers
 ├── 02_Industry_Analysis.md    # Phase 2: Industry cycle, competition
 ├── 03_Business_Breakdown.md   # Phase 3: Profit drivers, economics
 ├── 04_Financial_Quality.md    # Phase 4: Cash flow, margins, red flags, peers
 ├── 05_Governance_Analysis.md  # Phase 5: Ownership, incentives, capital allocation
-├── 06_Market_Sentiment.md     # Phase 6: Bull/bear cases, verification nodes
+├── 06_Market_Sentiment.md     # Phase 6: Bull/bear cases, verification nodes, market context (not in signal)
 ├── 07_Valuation_Moat.md       # Phase 7: Moat score, valuation, risk scenarios
-├── notes/                     # As-of baseline + raw per-agent findings (enables resume)
+├── notes/                     # Baseline, price snapshot (00_market.md), financials, valuation runs, raw/ API data, per-agent findings
 └── sources/bibliography.md    # All citations with A-E ratings
 ```
 
@@ -229,7 +229,7 @@ Use whatever the host agent provides for: web search, web fetch, file read/write
 
 ### Research Quality
 - **Stock Research**: Mandatory profit vs. cash flow validation, company vs. peer comparison, bear case analysis
-- **Numbers**: US financials come from SEC EDGAR via `stock-research-executor/scripts/fin_data.py`; valuation math via `scripts/valuation.py`. Every computed number carries a method slug that maps to a paper in `stock-research-executor/methods.md`
+- **Numbers**: US financials come from SEC EDGAR via `stock-research-executor/scripts/fin_data.py`; price snapshot and technicals via `scripts/market_data.py`; valuation math via `scripts/valuation.py` (runs logged to `notes/valuation_runs.jsonl`). `scripts/check_report.py [dir]` is the final deterministic check. Every computed number carries a method slug that maps to a paper in `stock-research-executor/methods.md`
 - Use **Chain-of-Verification (CoVe)**: Generate → Verify → Correct
 - Rate confidence (High/Medium/Low)
 - Acknowledge contradictions between sources

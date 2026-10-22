@@ -102,6 +102,9 @@ For high-stakes claims (medical, legal, financial):
 ```markdown
 # Citation Validation Report
 
+## Current Status
+[Filled in after fixes are applied and each fixed item is re-checked: score now vs. initial score, items fixed and re-verified, items still open. Keep this section at the top.]
+
 ## Executive Summary
 - **Total Claims Analyzed**: [number]
 - **Claims with Citations**: [number] ([percentage]%)
@@ -129,7 +132,7 @@ Search for claims to verify: exact claim in quotes, keywords, author names, sour
 Access sources to confirm figures, dates, context, and find DOI/URL
 
 ### File tools (for documentation)
-Save validation reports to `sources/citation_validation_report.md`
+Save validation reports to `sources/citation_validation_report.md`. After the report's issues are fixed, re-fetch or recompute every fixed item, append a remediation log, and update **Current Status**. Do not leave a pre-fix score as the headline.
 
 ## Special Considerations
 

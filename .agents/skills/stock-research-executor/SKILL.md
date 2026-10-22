@@ -19,11 +19,12 @@ Turn a structured research prompt from `stock-question-refiner` into a cited, 8-
 ├── 05_Governance_Analysis.md  # Phase 5
 ├── 06_Market_Sentiment.md     # Phase 6
 ├── 07_Valuation_Moat.md       # Phase 7
-├── notes/                     # 00_baseline.md, 00_financials.md, one raw file per agent (1A.md ... 7D.md)
+├── notes/                     # 00_baseline.md, 00_market.md, 00_financials.md/.json, valuation_runs.jsonl,
+│                              # raw/ (saved API responses), one raw file per agent (1A.md ... 7D.md)
 └── sources/bibliography.md    # All citations with A-E ratings
 ```
 
-The run is complete only when `00`-`07` and `sources/bibliography.md` all exist.
+The run is complete only when `00`-`07` and `sources/bibliography.md` all exist and `scripts/check_report.py [output_dir]` exits 0.
 
 ## Procedure
 
@@ -40,23 +41,29 @@ Establish and write `notes/00_baseline.md`:
 - Fiscal year end and reporting currency
 - Latest annual filing (10-K / 20-F / annual report) and latest interim filing (10-Q / interim / quarterly report): period end, filing date, URL
 - Next scheduled earnings date
-- Current share price, shares outstanding and market cap, with the price date
+- Current share price (copied from `notes/00_market.md`, with its quote time and exchange), shares outstanding and market cap
 
-For US (SEC) filers, also run the financial data script, which needs only the Python standard library and network access:
+Run the price snapshot first (any Yahoo symbol: `ORCL`, `600519.SS`, `0700.HK`). It records quote time, exchange, retrieval time and a SHA-256 of the saved raw response, plus descriptive technicals for the optional Phase 6E:
 
 ```bash
-python3 <this skill dir>/scripts/fin_data.py [TICKER] --out [output_dir]/notes/00_financials.md
+python3 <this skill dir>/scripts/market_data.py [YAHOO_SYMBOL] --out [output_dir]/notes/00_market.md --raw [output_dir]/notes/raw
 ```
 
-It pulls 10 years of 10-K data from SEC EDGAR XBRL (Grade A) and computes margins, DuPont ROE, OCF/NI, accruals, the Piotroski F-score and CAGRs. Each metric is tagged with a method slug from [methods.md](methods.md). For non-US tickers it exits with a message; Phase 4 then collects the figures by web research.
+For US (SEC) filers, also run the financial data script. Both scripts need only the Python standard library and network access:
+
+```bash
+python3 <this skill dir>/scripts/fin_data.py [TICKER] --out [output_dir]/notes/00_financials.md --json [output_dir]/notes/00_financials.json
+```
+
+It pulls 10 years of 10-K data from SEC EDGAR XBRL (Grade A) and computes margins, ROIC, DuPont ROE, OCF/NI, accruals, the Piotroski F-score and CAGRs. Each metric is tagged with a method slug from [methods.md](methods.md). For non-US tickers it exits with a message; Phase 4 then collects the figures by web research.
 
 Every agent uses this baseline. Data older than the latest filing must be labeled with its period.
 
 ### Step 2: Phases 1-7
 
-For each phase, launch its 4 agents (briefs in [phases.md](phases.md)) **in parallel** as subagents, using the template below (`[skill_dir]` = absolute path of this skill folder). Phases 1-6 are independent; if the host allows more parallel subagents, run two phases at once. Run Phase 7 after `04` and `06` exist; its agents read those files.
+For each phase, launch its agents (4 per phase; Phase 6 has 5) (briefs in [phases.md](phases.md)) **in parallel** as subagents, using the template below (`[skill_dir]` = absolute path of this skill folder). Phases 1-6 are independent; if the host allows more parallel subagents, run two phases at once. Run Phase 7 after `04` and `06` exist; its agents read those files.
 
-When a phase's agents finish, launch one synthesis subagent: read `notes/<N>*.md`, write `0N_*.md` using that phase's report template in [phases.md](phases.md), and return at most 5 lines. Do not read raw notes in the main session; this keeps its context small enough to finish all 8 phases.
+When a phase's agents finish, launch one synthesis subagent: read `notes/<N>*.md`, write `0N_*.md` using that phase's report template in [phases.md](phases.md) in at most ~4,000 words (reference notes and shared tables instead of repeating them), and return at most 5 lines. Do not read raw notes in the main session; this keeps its context small enough to finish all 8 phases.
 
 **Agent template**:
 ```
@@ -75,7 +82,9 @@ Rules:
 - If data cannot be found, write "not found". Never estimate from memory or invent numbers.
 - Never do arithmetic by hand. Reuse notes/00_financials.md, run [skill_dir]/scripts/valuation.py
   (--help for usage), or run code. Tag every computed number with its method slug from
-  [skill_dir]/methods.md, e.g. "OCF/NI 1.87 [sloan-1996]".
+  [skill_dir]/methods.md, e.g. "OCF/NI 1.87 [sloan-1996]". Never invent a slug; if no slug fits,
+  describe the method in words.
+- Budget: notes at most ~1,500 words. Point to notes/00_financials.md tables instead of copying them.
 - Cite every factual claim: [Organization, Title, Date, URL] plus an A-E grade.
 - Label [FACT] vs [JUDGMENT]; give each key finding a confidence (High/Medium/Low).
 
@@ -98,7 +107,13 @@ Read the Executive Summary and Key Takeaways of `01`-`07`, then write `00_Execut
 
 ### Step 5: Validate
 
-Run the `citation-validator` skill on `00`-`07` and fix what it flags. Then list the directory to confirm the run is complete.
+Run the `citation-validator` skill on `00`-`07` and fix what it flags. Then re-validate every fixed item (re-fetch or recompute) and put a **Current Status** section at the top of `sources/citation_validation_report.md`: score after fixes, items fixed, items still open. Finally run:
+
+```bash
+python3 <this skill dir>/scripts/check_report.py [output_dir]
+```
+
+Fix every ERROR. Fix WARNs about the snapshot price; budget WARNs are acceptable only for the user's priority phases.
 
 ## Quality Standards
 
