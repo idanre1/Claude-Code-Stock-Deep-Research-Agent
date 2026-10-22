@@ -1317,7 +1317,7 @@ Weighted total: 0-2 no moat, 2-4 narrow moat, 4-5 wide moat. Tag the score `[moa
 
 **Objective**: Build a transparent DCF and reverse it to find what the price implies. Produce a valuation range, not a price target.
 
-**All valuation arithmetic runs through `scripts/valuation.py`** (`wacc`, `dcf` for bear/base/bull, `reverse`). Cite a dated source for every input: risk-free rate from the U.S. Treasury yield curve (or the home-country government bond), cost of debt from the company's most recent bond issue or filing, beta, ERP, net debt and shares from `notes/00_financials.md`. Add `--save [output_dir]/notes/valuation_runs.jsonl` to every run so the model can be re-run, and paste the script output with its method slugs into the notes.
+**All valuation arithmetic runs through the bundled `notes/valuation.py`** (`wacc`, `dcf` for bear/base/bull, `reverse`). Cite a dated source for every input: risk-free rate from the U.S. Treasury yield curve (or the home-country government bond), cost of debt from the company's most recent bond issue or filing, beta, ERP, net debt and shares from `notes/00_financials.md`. Add `--save [output_dir]/notes/valuation_runs.jsonl` to every run, and paste the script output with its method slugs into the notes. Any helper script you write (e.g. to build the funding bridge) goes in `notes/raw/`, reads its inputs from a JSON file next to it and calls `notes/valuation.py` by a relative path. `python3 notes/valuation.py replay notes/valuation_runs.jsonl` must reproduce every logged run.
 
 **Funding bridge (required when FCF is negative or capex is rising)**: before the DCF, build a yearly table from filings and guidance, then feed the resulting signed FCF straight into `dcf --fcf-path=...` (negative years allowed; the final year must be positive). Do not normalize a negative base into a positive one.
 
@@ -1332,6 +1332,7 @@ Weighted total: 0-2 no moat, 2-4 narrow moat, 4-5 wide moat. Tag the score `[moa
 - Sensitivity: discount rate × terminal growth (or × margin)?
 - Reverse DCF: what revenue growth and margin path does the current market cap imply? Is that realistic vs. history and consensus?
 - Which 2 assumptions are most likely wrong, and how can they be verified?
+- Rating robustness: which combinations of assumptions (cash margin, capex path, funding cost, conventions such as SBC as a cash cost or finance-lease additions) put the base value above the price, near it, or far below it? Run each convention change as a with/without pair and state its economic reason; a convention alone must not decide the rating.
 
 **Output Structure**:
 ```markdown
@@ -1354,6 +1355,10 @@ Weighted total: 0-2 no moat, 2-4 narrow moat, 4-5 wide moat. Tag the score `[moa
 **Most Fragile Assumptions**:
 1. [assumption] - how to verify: [data / event]
 2. [assumption] - how to verify: [data / event]
+
+**Rating Robustness**:
+| Assumption set (what changes vs. base) | Value per share | vs. price | Rating it supports | Economic reason it is / is not plausible |
+|----------------------------------------|-----------------|-----------|--------------------|------------------------------------------|
 ```
 
 ---
@@ -1421,7 +1426,7 @@ At most 1,200 words. Link to phase files for detail instead of repeating it. Quo
 
 **Rationale**: [2-3 sentences]. The signal scores the business and price; data confidence scores how well the evidence supports it. Keep them separate.
 
-**Why this rating given the valuation**: [Reconcile the signal with the DCF range and reverse DCF. If the price sits outside the bear-base range, say explicitly why the rating is still Hold/Buy/Avoid.]
+**Why this rating given the valuation**: [Reconcile the signal with the DCF range and reverse DCF. If the price sits outside the bear-base range, say explicitly why the rating is still Hold/Buy/Avoid. Using the 7C Rating Robustness table, say which plausible assumption sets would change the rating, and whether the rating rests on "evidence shows weak economics" or "evidence is insufficient to underwrite the price".]
 
 ## Investment Thesis
 
@@ -1458,10 +1463,10 @@ At most 1,200 words. Link to phase files for detail instead of repeating it. Quo
 
 ## Monitoring State
 
-| Metric | Source | Next Date | Threshold (strengthen / exit) | Rationale | Current | Status |
-|--------|--------|-----------|-------------------------------|-----------|---------|--------|
+| Metric | Source | Next Date | Upgrade if | Downgrade if | Rationale | Current | Status |
+|--------|--------|-----------|------------|--------------|-----------|---------|--------|
 
-Status = pass / fail / not testable yet.
+Status = pass / fail / not testable yet. Both thresholds are numeric and observable at the next date; "not testable yet" when the disclosure does not exist.
 
 ## Conclusion
 

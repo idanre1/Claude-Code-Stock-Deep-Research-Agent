@@ -11,10 +11,12 @@
 --fcf-path gives explicit signed yearly FCF (e.g. a funded build-out with negative years); only the
 final year must be positive. Add --save notes/valuation_runs.jsonl to log inputs and outputs.
 
+  valuation.py replay notes/valuation_runs.jsonl   (re-run every logged run, compare results, write nothing)
+
 All rates are decimals. Use one unit for money (e.g. USD) and the share count in the same scale.
 Method slugs in [brackets] are defined in ../methods.md.
 """
-import argparse, datetime as dt, json, sys
+import argparse, contextlib, datetime as dt, io, json, math, sys
 
 
 def grow(fcf0, growth):
@@ -54,6 +56,7 @@ def save(a, result):
                "result": result}
         with open(a.save, "a") as fh:
             fh.write(json.dumps(rec) + "\n")
+    return result
 
 
 def growth_path(s, years):
@@ -69,9 +72,8 @@ def wacc(a):
         w = a.equity / v * ke + a.debt / v * a.kd * (1 - a.tax)
         print(f"- WACC = E/V·ke + D/V·kd·(1−t) = {a.equity / v:.1%} × {ke:.2%} + {a.debt / v:.1%} × "
               f"{a.kd:.2%} × (1 − {a.tax:.0%}) = **{w:.2%}** [damodaran-2007]")
-        save(a, {"ke": ke, "wacc": w})
-    else:
-        save(a, {"ke": ke})
+        return save(a, {"ke": ke, "wacc": w})
+    return save(a, {"ke": ke})
 
 
 def dcf(a):
@@ -107,7 +109,7 @@ def dcf(a):
     for r in rates:
         cells = [f"{value(fcfs, t, r, a.net_debt, a.shares)[0]:,.2f}" if r > t else "n/m" for t in tgs]
         print(f"| {r:.2%} | " + " | ".join(cells) + " |")
-    save(a, {"value_per_share": v, "ev": ev, "tv_share_of_ev": tv_share, "fcfs": fcfs})
+    return save(a, {"value_per_share": v, "ev": ev, "tv_share_of_ev": tv_share, "fcfs": fcfs})
 
 
 def reverse(a):
@@ -132,11 +134,39 @@ def reverse(a):
     print(f"- Price {a.price:,.2f} implies, {lead}**{g:.1%} annual FCF growth for {a.years} years** "
           f"(FCF {start:,.0f} → {fcf_n:,.0f}), then {a.tg:.2%} forever, at a {a.rate:.2%} discount rate "
           "[rappaport-mauboussin-2001]")
-    save(a, {"implied_growth": g, "final_fcf": fcf_n})
     print("- Compare with historical FCF/revenue CAGR [def-cagr] and consensus; state whether the implied path is plausible.")
+    return save(a, {"implied_growth": g, "final_fcf": fcf_n})
 
 
-def main():
+def same(x, y):
+    if isinstance(x, list):
+        return isinstance(y, list) and len(x) == len(y) and all(map(same, x, y))
+    if isinstance(x, float) or isinstance(y, float):
+        return x is not None and y is not None and math.isclose(x, y, rel_tol=1e-9, abs_tol=1e-9)
+    return x == y
+
+
+def replay(log):
+    """Re-run each logged run without saving; return the list of mismatch messages."""
+    bad = []
+    for n, line in enumerate(open(log), 1):
+        rec = json.loads(line)
+        argv = [rec["cmd"]] + [f"--{k.replace('_', '-')}={v}" for k, v in rec["inputs"].items()]
+        try:
+            with contextlib.redirect_stdout(io.StringIO()):
+                a = parser().parse_args(argv)
+                got = CMDS[a.cmd](a)
+        except SystemExit as e:
+            bad.append(f"line {n} ({rec['cmd']}): fails on replay: {e}")
+            continue
+        diff = [k for k in rec["result"] if not same(rec["result"][k], got.get(k))]
+        if diff:
+            bad.append(f"line {n} ({rec['cmd']}): {', '.join(diff)} differ: logged {[rec['result'][k] for k in diff]}"
+                       f" vs replay {[got.get(k) for k in diff]}")
+    return bad
+
+
+def parser():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
     w = sub.add_parser("wacc")
@@ -161,8 +191,20 @@ def main():
         if name == "dcf":
             p.add_argument("--growth", help="one rate, or a comma-separated path per year")
             p.add_argument("--rf", type=float, help="risk-free rate, for the terminal-growth check")
-    a = ap.parse_args()
-    {"wacc": wacc, "dcf": dcf, "reverse": reverse}[a.cmd](a)
+    sub.add_parser("replay").add_argument("log", help="valuation_runs.jsonl written by --save")
+    return ap
+
+
+CMDS = {"wacc": wacc, "dcf": dcf, "reverse": reverse}
+
+
+def main():
+    a = parser().parse_args()
+    if a.cmd == "replay":
+        bad = replay(a.log)
+        print("\n".join(bad) or f"replay OK: every run in {a.log} reproduces")
+        sys.exit(1 if bad else 0)
+    CMDS[a.cmd](a)
 
 
 if __name__ == "__main__":

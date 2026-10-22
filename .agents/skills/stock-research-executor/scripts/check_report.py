@@ -2,9 +2,10 @@
 """Deterministic checks on a finished stock research directory. Run before declaring the run complete.
 
 Usage:  check_report.py /datadrive/scratch/stock_research/STOCK_[ticker]_[company]
-Exit 1 on errors (missing files, unknown method slugs); budget and price issues are warnings.
+Exit 1 on errors (missing files, unknown method slugs, valuation runs that do not replay with the bundled
+notes/valuation.py, report scripts that depend on the skill directory); budget and price issues are warnings.
 """
-import pathlib, re, sys
+import importlib.util, pathlib, re, sys
 
 SKILL = pathlib.Path(__file__).resolve().parent.parent
 REQUIRED = ["00_Executive_Summary.md", "01_Business_Foundation.md", "02_Industry_Analysis.md",
@@ -32,6 +33,19 @@ def main():
                     if SLUG.match(tok) and tok not in known:
                         used.setdefault(tok, f"{p.name}:{n}")
     errors += [f"unknown method slug [{s}] first used at {loc}; define it in methods.md" for s, loc in used.items()]
+
+    runs, engine = root / "notes/valuation_runs.jsonl", root / "notes/valuation.py"
+    if runs.exists():
+        if engine.exists():
+            spec = importlib.util.spec_from_file_location("bundled_valuation", engine)
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            errors += [f"valuation replay: {b}" for b in mod.replay(runs)]
+        else:
+            errors.append("notes/valuation.py missing: copy scripts/valuation.py into the report so its runs replay offline")
+    for p in sorted(root.rglob("*.py")) + sorted(root.rglob("*.sh")):
+        if str(SKILL) in p.read_text(errors="ignore"):
+            errors.append(f"{p.relative_to(root)} references {SKILL}; use the bundled notes/valuation.py via a relative path")
 
     for p in sorted(root.glob("0*.md")):
         words = len(p.read_text().split())

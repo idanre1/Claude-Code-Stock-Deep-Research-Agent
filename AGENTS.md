@@ -229,7 +229,7 @@ Use whatever the host agent provides for: web search, web fetch, file read/write
 
 ### Research Quality
 - **Stock Research**: Mandatory profit vs. cash flow validation, company vs. peer comparison, bear case analysis
-- **Numbers**: US financials come from SEC EDGAR via `stock-research-executor/scripts/fin_data.py`; price snapshot and technicals via `scripts/market_data.py`; valuation math via `scripts/valuation.py` (runs logged to `notes/valuation_runs.jsonl`). `scripts/check_report.py [dir]` is the final deterministic check. Every computed number carries a method slug that maps to a paper in `stock-research-executor/methods.md`
+- **Numbers**: US financials come from SEC EDGAR via `stock-research-executor/scripts/fin_data.py`; price snapshot and technicals via `scripts/market_data.py`; valuation math via `scripts/valuation.py`, copied into each report as `notes/valuation.py` (runs logged to `notes/valuation_runs.jsonl`; `valuation.py replay` re-runs them offline). `scripts/check_report.py [dir]` is the final deterministic check, including that replay. Every computed number carries a method slug that maps to a paper in `stock-research-executor/methods.md`
 - Use **Chain-of-Verification (CoVe)**: Generate → Verify → Correct
 - Rate confidence (High/Medium/Low)
 - Acknowledge contradictions between sources

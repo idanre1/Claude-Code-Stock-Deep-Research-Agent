@@ -2,7 +2,7 @@
 
 Every computed number in a report carries a method slug, e.g. `OCF/NI 1.32 [sloan-1996]`. This file maps each slug to its formula and the research behind it. All DOIs were verified against Crossref. Phase 8 copies the slugs used into `sources/bibliography.md`.
 
-Numbers come from [scripts/fin_data.py](scripts/fin_data.py) (SEC EDGAR XBRL, US filers), [scripts/valuation.py](scripts/valuation.py) and [scripts/market_data.py](scripts/market_data.py). Do not do this arithmetic by hand. [scripts/check_report.py](scripts/check_report.py) fails the run on any slug not defined here.
+Numbers come from [scripts/fin_data.py](scripts/fin_data.py) (SEC EDGAR XBRL, US filers), [scripts/valuation.py](scripts/valuation.py) and [scripts/market_data.py](scripts/market_data.py). Do not do this arithmetic by hand. [scripts/check_report.py](scripts/check_report.py) fails the run on any slug not defined here, or if the logged valuation runs do not replay with the report's bundled `notes/valuation.py`.
 
 ## Financial quality (`fin_data.py`)
 

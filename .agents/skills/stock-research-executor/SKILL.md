@@ -20,6 +20,7 @@ Turn a structured research prompt from `stock-question-refiner` into a cited, 8-
 ├── 06_Market_Sentiment.md     # Phase 6
 ├── 07_Valuation_Moat.md       # Phase 7
 ├── notes/                     # 00_baseline.md, 00_market.md, 00_financials.md/.json, valuation_runs.jsonl,
+│                              # valuation.py (bundled copy; `python3 notes/valuation.py replay notes/valuation_runs.jsonl`),
 │                              # raw/ (saved API responses), one raw file per agent (1A.md ... 7D.md)
 └── sources/bibliography.md    # All citations with A-E ratings
 ```
@@ -57,6 +58,12 @@ python3 <this skill dir>/scripts/fin_data.py [TICKER] --out [output_dir]/notes/0
 
 It pulls 10 years of 10-K data from SEC EDGAR XBRL (Grade A) and computes margins, ROIC, DuPont ROE, OCF/NI, accruals, the Piotroski F-score and CAGRs. Each metric is tagged with a method slug from [methods.md](methods.md). For non-US tickers it exits with a message; Phase 4 then collects the figures by web research.
 
+Bundle the valuation engine so the report replays offline, without the skill folder:
+
+```bash
+cp <this skill dir>/scripts/valuation.py [output_dir]/notes/valuation.py
+```
+
 Every agent uses this baseline. Data older than the latest filing must be labeled with its period.
 
 ### Step 2: Phases 1-7
@@ -80,8 +87,8 @@ User priorities: [style, horizon, risk tolerance, focus areas, specific concerns
 Rules:
 - Base all figures on the latest filings in the baseline. Label anything older with its period.
 - If data cannot be found, write "not found". Never estimate from memory or invent numbers.
-- Never do arithmetic by hand. Reuse notes/00_financials.md, run [skill_dir]/scripts/valuation.py
-  (--help for usage), or run code. Tag every computed number with its method slug from
+- Never do arithmetic by hand. Reuse notes/00_financials.md, run [output_dir]/notes/valuation.py
+  (--help for usage; never a path into the skill folder), or run code. Tag every computed number with its method slug from
   [skill_dir]/methods.md, e.g. "OCF/NI 1.87 [sloan-1996]". Never invent a slug; if no slug fits,
   describe the method in words.
 - Budget: notes at most ~1,500 words. Point to notes/00_financials.md tables instead of copying them.
