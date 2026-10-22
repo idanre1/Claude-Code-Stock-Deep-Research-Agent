@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../prompt_zoo"
+		},
+		{
+			"path": "../../../../../datadrive/scratch/stock_research"
 		}
 	]
 }
